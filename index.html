@@ -4,122 +4,169 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmos Agencia Creativa</title>
+    <!-- Importando Montserrat (Black 900 y Medium 500) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-dark: #0a0a0f;
-            --surface: #14141d;
-            --text-main: #ffffff;
-            --text-muted: #a0a0b0;
-            --primary: #8a2be2;
-            --secondary: #00d2ff;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            /* Paleta de Colores Cosmos */
+            --neon: #c8ff00;
+            --magenta: #ff0098;
+            --blue: #0068ff;
+            --dark-purple: #3e007a;
+            --white: #ffffff;
+            --light-grey: #f5f5f7;
+            --dark-grey: #1a1a1a;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500; /* Medium para textos por defecto */
+            background-color: var(--white);
+            color: var(--dark-grey);
+            overflow-x: hidden;
         }
 
+        /* Regla estricta para Títulos */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 900; /* Black */
+            text-transform: uppercase; /* Siempre en mayúsculas */
+            line-height: 1.1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Utilidades para ocultar/mostrar vistas */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================= HEADER ================= */
         header {
+            background-color: var(--white);
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
+            position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
+        .logo-container img {
+            height: 40px;
+            cursor: pointer;
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 30px;
+            align-items: center;
         }
 
         .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 900;
+            font-size: 0.9rem;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--secondary);
+            color: var(--magenta);
         }
 
+        .btn-portal {
+            background-color: var(--dark-purple);
+            color: var(--white) !important;
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 2px solid var(--dark-purple);
+            transition: all 0.3s ease;
+        }
+
+        .btn-portal:hover {
+            background-color: var(--neon);
+            color: var(--dark-purple) !important;
+            border-color: var(--neon);
+        }
+
+        /* ================= VISTA 1: LANDING PAGE ================= */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 120px 5%;
             text-align: center;
-            padding: 100px 5% 50px;
-            background: radial-gradient(circle at top, rgba(138, 43, 226, 0.15), transparent 50%);
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-grey) 100%);
+            position: relative;
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            line-height: 1.1;
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--dark-purple);
             margin-bottom: 20px;
-            font-weight: 800;
+        }
+
+        .hero h1 span {
+            color: var(--blue);
+            font-weight: 900;
         }
 
         .hero p {
             font-size: 1.2rem;
-            color: var(--text-muted);
             max-width: 600px;
-            margin-bottom: 40px;
+            margin: 0 auto 40px;
+            color: #555;
         }
 
-        .btn {
-            background: var(--gradient);
-            color: white;
-            padding: 15px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
+        .btn-main {
+            background-color: var(--magenta);
+            color: var(--white);
+            padding: 15px 40px;
             font-size: 1.1rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
+            font-weight: 900;
+            border-radius: 50px;
+            display: inline-block;
             cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
+        .btn-main:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 0, 152, 0.4);
         }
 
         .services {
-            padding: 80px 5%;
+            padding: 100px 5%;
+            background-color: var(--white);
+            text-align: center;
         }
 
-        .grid {
+        .services h2 {
+            font-size: 2.5rem;
+            color: var(--dark-purple);
+            margin-bottom: 60px;
+        }
+
+        .grid-3 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
@@ -128,92 +175,383 @@
         }
 
         .card {
-            background: var(--surface);
-            padding: 40px 30px;
+            background: var(--light-grey);
+            padding: 50px 30px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s ease;
+            border-bottom: 6px solid var(--blue);
+            transition: transform 0.3s;
         }
+
+        .card:nth-child(2) { border-color: var(--magenta); }
+        .card:nth-child(3) { border-color: var(--neon); }
 
         .card:hover {
             transform: translateY(-10px);
-            border-color: rgba(138, 43, 226, 0.5);
         }
 
         .card h3 {
             font-size: 1.5rem;
             margin-bottom: 15px;
-            color: var(--secondary);
+            color: var(--dark-grey);
         }
 
-        .courses-banner {
-            background: var(--surface);
-            margin: 0 5% 80px;
-            padding: 60px 5%;
+        /* Banner Call to Action / Footer style */
+        .cta-footer {
+            background-color: var(--dark-purple);
+            padding: 100px 5%;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta-footer h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            color: var(--neon);
+        }
+
+        .cta-footer img.logo-footer {
+            height: 60px;
+            margin-top: 60px;
+            opacity: 0.9;
+        }
+
+        /* ================= VISTA 2: LOGIN PORTAL ================= */
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--dark-purple), var(--blue));
+            padding: 20px;
+        }
+
+        .login-box {
+            background: var(--white);
+            padding: 50px 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .login-box img {
+            height: 40px;
+            margin-bottom: 30px;
+        }
+
+        .login-box h2 {
+            color: var(--dark-purple);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .login-box p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--magenta);
+        }
+
+        .btn-login {
+            background-color: var(--blue);
+            color: var(--white);
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .btn-login:hover {
+            background-color: var(--dark-purple);
+        }
+
+        .back-link {
+            color: #888;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* ================= VISTA 3: DASHBOARD CLIENTE ================= */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--light-grey);
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: var(--dark-purple);
+            color: var(--white);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar img {
+            height: 40px;
+            margin-bottom: 50px;
+            align-self: flex-start;
+        }
+
+        .sidebar h4 {
+            color: var(--neon);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-links a {
+            padding: 12px 15px;
+            border-radius: 10px;
+            transition: background 0.3s;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .sidebar-links a:hover, .sidebar-links a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--neon);
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding: 50px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-header h1 {
+            color: var(--dark-purple);
+            font-size: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--white);
+            padding: 40px;
             border-radius: 20px;
-            text-align: center;
-            border-top: 4px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border-left: 8px solid var(--magenta);
         }
 
-        footer {
+        .project-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--dark-grey);
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: var(--neon);
+            color: var(--dark-purple);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #eee;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 65%;
+            background: linear-gradient(90deg, var(--magenta), var(--blue));
+            border-radius: 10px;
+        }
+
+        .btn-logout {
+            margin-top: auto;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
             text-align: center;
-            padding: 40px 5%;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 900;
+            text-transform: uppercase;
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; } /* En móvil simplificamos la cabecera */
+            .nav-links { display: none; }
+            .dashboard-layout { flex-direction: column; }
+            .sidebar { width: 100%; padding: 20px; }
+            .dashboard-content { padding: 20px; }
+            .hero h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="logo">cosmos.</a>
-        <nav class="nav-links">
-            <a href="#servicios">Servicios</a>
-            <a href="#cursos">Cursos</a>
-            <a href="https://instagram.com/cosmos_agenciacreativa" target="_blank">Instagram</a>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <h1>Proyectamos la imagen<br>que tu marca merece.</h1>
-        <p>Agencia creativa en Acarigua/Araure. Especialistas en producción visual, diseño de identidad y manejo de redes para instituciones y negocios que quieren destacar.</p>
-        <a href="#servicios" class="btn">Conoce nuestro trabajo</a>
-    </section>
-
-    <section id="servicios" class="services">
-        <h2 class="section-title">Nuestros Servicios</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Identidad Visual</h3>
-                <p>No solo hacemos un logo. Entregamos un manual de uso, psicología del color, valores de marca y mockups 3D para que veas tu marca en el mundo real.</p>
+    <!-- VISTA 1: LANDING PAGE -->
+    <div id="view-landing" class="view-section active">
+        <header>
+            <!-- Logo a color sobre fondo blanco -->
+            <div class="logo-container" onclick="switchView('view-landing')">
+                <img src="Logo color.jpg" alt="Cosmos Agencia Creativa">
             </div>
-            <div class="card">
-                <h3>Producción de Video</h3>
-                <p>Grabación y edición con calidad premium. Capturamos la esencia de tu colegio o negocio para que conecte de inmediato con tu audiencia en Instagram y TikTok.</p>
+            <nav class="nav-links">
+                <a href="#servicios">Servicios</a>
+                <a href="#portafolio">Portafolio</a>
+                <a href="#nosotros">Nosotros</a>
+                <!-- El botón redirigirá a tu otra web en el futuro, por ahora no hace nada -->
+                <a href="https://cosmoscursos.com" target="_blank" style="color: var(--magenta);">Nuestros Cursos</a>
+                <a href="#" class="btn-portal" onclick="switchView('view-login')">Tu Proyecto</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1>Conectamos tus ideas,<br><span>impulsamos tu universo.</span></h1>
+            <p>Agencia creativa en Acarigua/Araure. Especialistas en producción visual, diseño de identidad y manejo de redes.</p>
+            <button class="btn-main" onclick="switchView('view-login')">Ingresa a tu portal</button>
+        </section>
+
+        <section id="servicios" class="services">
+            <h2>Todo lo que necesitas<br>en un solo equipo.</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Identidad Visual</h3>
+                    <p>Diseñamos marcas con propósito. Bonito, sí. Pero con sentido estratégico.</p>
+                </div>
+                <div class="card">
+                    <h3>Gestión de Redes</h3>
+                    <p>Del "hola" al "¡esto era lo que quería!". Hacemos comunidad y atraemos clientes reales.</p>
+                </div>
+                <div class="card">
+                    <h3>Video / Producción</h3>
+                    <p>No solo lo contamos. Lo hacemos visible. Grabamos la esencia de tu negocio.</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>Gestión de Redes</h3>
-                <p>Estrategia, diseño y publicación. Convertimos tu Instagram en tu mejor vitrina comercial, proyectando profesionalismo y confianza 24/7.</p>
+        </section>
+
+        <section class="cta-footer">
+            <h2>¿Y si hacemos<br>algo increíble?</h2>
+            <button class="btn-main" style="background-color: var(--neon); color: var(--dark-purple);">Agenda una asesoría</button>
+            <br>
+            <!-- Logo en blanco sobre fondo oscuro (Morado) sin cuadro -->
+            <img src="Logo blanco.png" alt="Cosmos" class="logo-footer">
+        </section>
+    </div>
+
+    <!-- VISTA 2: LOGIN -->
+    <div id="view-login" class="view-section">
+        <div class="login-wrapper">
+            <div class="login-box">
+                <!-- Logo a color sobre fondo blanco del cuadro de login -->
+                <img src="Logo color.jpg" alt="Cosmos Logo">
+                <h2>¡Qué bueno verte!</h2>
+                <p>Ingresa para ver el estatus de tu universo.</p>
+                
+                <div class="input-group">
+                    <input type="email" placeholder="Correo electrónico">
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Contraseña">
+                </div>
+                
+                <!-- Este botón simula el inicio de sesión y lleva al dashboard -->
+                <button class="btn-login" onclick="switchView('view-dashboard')">Entrar</button>
+                
+                <span class="back-link" onclick="switchView('view-landing')">Volver al inicio</span>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="cursos" class="courses-banner">
-        <h2>Aprende con Cosmos</h2>
-        <p style="margin: 20px 0; color: var(--text-muted); max-width: 600px; margin-left: auto; margin-right: auto;">
-            Muy pronto abriremos las puertas de nuestra academia. Comenzaremos con talleres presenciales intensivos para desarrollar tu músculo creativo, y próximamente nuestro Máster Online en Diseño Gráfico.
-        </p>
-        <a href="https://instagram.com/cosmos_agenciacreativa" class="btn">Síguenos para enterarte</a>
-    </section>
+    <!-- VISTA 3: DASHBOARD CLIENTE -->
+    <div id="view-dashboard" class="view-section">
+        <div class="dashboard-layout">
+            <aside class="sidebar">
+                <!-- Logo blanco sobre fondo oscuro del sidebar -->
+                <img src="Logo blanco.png" alt="Cosmos" style="cursor:pointer;" onclick="switchView('view-landing')">
+                
+                <h4>TU ESPACIO</h4>
+                <div class="sidebar-links">
+                    <a class="active">Resumen de Proyecto</a>
+                    <a>Entregables</a>
+                    <a>Facturación</a>
+                    <a>Soporte Cosmos</a>
+                </div>
 
-    <footer>
-        <p>Cosmos Agencia Creativa © 2026</p>
-        <p style="font-size: 0.9rem; margin-top: 10px;">Acarigua - Araure, Venezuela</p>
-    </footer>
+                <div class="btn-logout" onclick="switchView('view-landing')">
+                    Cerrar Sesión
+                </div>
+            </aside>
 
+            <main class="dashboard-content">
+                <div class="dashboard-header">
+                    <h1>Hola, Andrea.<br>Vamos contigo.</h1>
+                </div>
+
+                <div class="project-card">
+                    <div class="status-badge">En Progreso</div>
+                    <h3>Nueva Identidad de Marca "Brava"</h3>
+                    <p>Estamos en la fase de conceptualización y paleta de colores. Cero estrés. Así trabajamos.</p>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: #888; font-weight: 900;">Progreso: 65%</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Script para cambiar de pantallas -->
+    <script>
+        function switchView(viewId) {
+            // Oculta todas las vistas
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Muestra la vista seleccionada y sube al principio de la página
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html>
