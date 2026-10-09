@@ -165,6 +165,15 @@ footer .copy{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.2);padding-
 .msg b{display:block;font-size:.75rem;font-weight:900}
 .demo{font-size:.78rem;opacity:.8}
 
+
+/* Próximamente (cursos) */
+.soon{min-height:100vh;background:var(--p);color:var(--w);display:flex;flex-direction:column;padding:32px 24px;position:relative;overflow:hidden}
+.soon>a img{height:40px;width:auto}
+.soon .mid{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;max-width:720px;margin:0 auto;position:relative;z-index:1}
+.soon h1{color:var(--n);margin:20px 0 18px}
+.soon .tag{background:var(--m);color:var(--w)}
+.soon .acts{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+.soon .bl{position:absolute;border-radius:50%}
 @media(max-width:860px){
  nav.links a:not(.btn){display:none}
  .hero .wrap,.about,.dif,.teaser .wrap,.faq,.contact .wrap,footer .wrap,.pg{grid-template-columns:1fr}
@@ -186,7 +195,7 @@ footer .copy{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.2);padding-
  <a href="#/" aria-label="Cosmos Agencia Creativa"><img src="img/Logo_color.png" alt="Cosmos Agencia Creativa"></a>
  <nav class="links">
   <a href="#servicios">Servicios</a><a href="#trayectoria">Trayectoria</a><a href="#nosotros">Sobre nosotros</a><a href="#/login">Portal de clientes</a>
-  <a class="btn dark" href="https://cosmoscursos.com" target="_blank" rel="noopener">Nuestros cursos ↗</a>
+  <a class="btn dark" href="#/cursos">Nuestros cursos</a>
  </nav>
 </div></header>
 
@@ -312,7 +321,7 @@ footer .copy{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.2);padding-
 <footer><div class="wrap">
  <div>
   <img src="img/Logo_blanco.png" alt="Cosmos Agencia Creativa">
-  <nav><a href="#servicios">Servicios</a><a href="#trayectoria">Trayectoria</a><a href="#nosotros">Sobre nosotros</a><a href="#contacto">Contacto</a><a href="#/login">Portal de clientes</a><a href="https://cosmoscursos.com" target="_blank" rel="noopener">Nuestros cursos</a></nav>
+  <nav><a href="#servicios">Servicios</a><a href="#trayectoria">Trayectoria</a><a href="#nosotros">Sobre nosotros</a><a href="#contacto">Contacto</a><a href="#/login">Portal de clientes</a><a href="#/cursos">Nuestros cursos</a></nav>
  </div>
  <div class="r"><strong style="font-weight:900;text-transform:uppercase">Ideas que encuentran su forma.</strong><p style="margin-top:8px">¿Tienes un proyecto? Escríbenos aquí:<br>cosmosagenciacreativa.com</p><p style="margin-top:8px">Instagram · TikTok · WhatsApp (próximamente activos)</p></div>
  <div class="copy"><span>© 2026 Cosmos Agencia Creativa</span><span>Aviso de privacidad</span></div>
@@ -398,8 +407,27 @@ footer .copy{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.2);padding-
  </div></div>
 </main>
 
+<!-- ============ CURSOS (PRÓXIMAMENTE) ============ -->
+<main class="view" id="v-cursos">
+ <div class="soon">
+  <a href="#/" aria-label="Volver a Cosmos"><img src="img/Logo_blanco.png" alt="Cosmos Agencia Creativa"></a>
+  <div class="bl" style="width:260px;height:260px;background:var(--m);top:-80px;right:-60px" aria-hidden="true"></div>
+  <div class="bl" style="width:120px;height:120px;background:var(--b);bottom:12%;left:-30px" aria-hidden="true"></div>
+  <div class="bl" style="width:36px;height:36px;background:var(--n);bottom:20%;right:14%" aria-hidden="true"></div>
+  <div class="mid">
+   <span class="tag">Cosmos Cursos</span>
+   <h1>Próximamente.</h1>
+   <p class="lead" style="font-size:1.1rem">Estamos preparando cursos online de diseño gráfico y talleres presenciales de creatividad. Muy pronto vas a poder aprender con nosotros.</p>
+   <div class="acts">
+    <a class="btn neon" href="#/">Volver a Cosmos</a>
+    <a class="btn" style="border-color:var(--w);color:var(--w)" href="#contacto" onclick="go('#/');setTimeout(()=>document.getElementById('contacto').scrollIntoView(),50);return false">Quiero que me avisen</a>
+   </div>
+  </div>
+ </div>
+</main>
+
 <script>
-const views={'#/':'v-home','#/login':'v-login','#/portal':'v-portal'};
+const views={'#/':'v-home','#/login':'v-login','#/portal':'v-portal','#/cursos':'v-cursos'};
 let logged=false;
 function go(h){location.hash=h}
 function route(){
