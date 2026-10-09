@@ -53,6 +53,40 @@ nav.links a:hover{color:var(--m)}
 .band .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
 .band strong{font-weight:900;text-transform:uppercase}
 
+
+/* ===== Figma · Navegación + Inicio (medidas exactas) ===== */
+.f-nav{position:sticky;top:0;z-index:20;height:104px;padding:0 80px;display:flex;align-items:center;justify-content:space-between;background:var(--w);border-bottom:1px solid #e7e1ee}
+.f-nav .logo img{width:120px;height:52px;object-fit:contain;display:block}
+.f-links{display:flex;gap:32px;align-items:center;font-size:13px;white-space:nowrap}
+.f-links a{text-decoration:none}.f-links a:hover{color:var(--m)}
+.f-acc{display:flex;gap:20px;align-items:center}
+.f-cursos{display:flex;gap:10px;align-items:center;height:52px;padding:0 20px;border-radius:100px;background:var(--p);color:var(--n);font-size:13px;text-decoration:none;white-space:nowrap}
+.f-ext{display:flex;flex-direction:column;gap:2px;font-size:9px;text-align:center;white-space:nowrap;color:#70677a}.f-ext b{font-weight:500;color:var(--m)}
+.f-hero{display:flex;flex-direction:column;gap:60px;padding-top:56px}
+.f-pres{display:flex;gap:32px;align-items:center;padding:0 80px}
+.f-left{display:flex;flex-direction:column;gap:28px;width:716px;flex-shrink:0}
+.f-eyebrow{display:flex;gap:10px;align-items:center;font-size:12px;text-transform:uppercase}
+.f-eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--m)}
+.f-hero h1{font-size:80px;line-height:1.01;letter-spacing:0}
+.f-intro{display:flex;flex-direction:column;gap:28px;width:590px;max-width:100%}
+.f-intro>p{font-size:18px;line-height:1.65;color:#250b3c}
+.f-cta{display:flex;gap:20px;align-items:center}
+.f-b1,.f-b2{display:flex;align-items:center;height:60px;border-radius:100px;text-decoration:none;white-space:nowrap}
+.f-b1{gap:16px;padding:0 28px;background:var(--n);border:1px solid var(--n);font:900 15px 'Montserrat',sans-serif;text-transform:uppercase}
+.f-b2{gap:12px;padding:0 24px;background:var(--w);border:1px solid var(--p);font-size:14px}
+.f-proof{display:flex;gap:16px;align-items:center;font-size:13px;color:#70677a}
+.f-dots{display:flex;gap:4px}.f-dots i{width:8px;height:8px;border-radius:50%}
+.f-right{position:relative;width:532px;height:560px;flex-shrink:0}
+.f-img{position:absolute;left:0;top:14px;width:532px;height:522px;border-radius:32px;object-fit:cover;background:#e5dff0}
+.f-st{position:absolute;display:flex;align-items:center;white-space:nowrap;border-radius:100px;font:900 16px 'Montserrat',sans-serif;text-transform:uppercase;transform:translate(-50%,-50%) rotate(-8deg)}
+.f-st1{left:98.9px;top:63.6px;background:var(--n);padding:12px 18px}
+.f-st2{left:332.5px;top:520.2px;gap:12px;background:var(--w);border:1px solid var(--p);padding:16px 22px;transform:translate(-50%,-50%) rotate(7deg)}
+.f-orb{position:absolute;left:490px;top:0;width:22px;height:22px;border-radius:50%;background:var(--m)}
+.f-man{display:flex;align-items:center;justify-content:space-between;height:110px;padding:0 80px;background:var(--p);color:var(--w)}
+.f-man h2{font-size:27px;line-height:normal;letter-spacing:0;white-space:nowrap}
+.f-man p{font-size:14px;line-height:1.6;width:370px}
+@media(max-width:1280px){.f-nav,.f-pres,.f-man{padding-left:24px;padding-right:24px}.f-pres{flex-direction:column;align-items:flex-start}.f-left{width:100%}.f-hero h1{font-size:clamp(2.6rem,9vw,5rem)}.f-man{height:auto;flex-direction:column;align-items:flex-start;gap:12px;padding-top:28px;padding-bottom:28px}.f-man h2{white-space:normal}.f-man p{width:auto}}
+@media(max-width:860px){.f-links,.f-ext{display:none}.f-nav{height:76px}.f-right{transform:scale(.62);transform-origin:top left;margin-bottom:-210px}.f-cta{flex-wrap:wrap}}
 /* Servicios */
 .sv{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
 .card{border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:340px}
@@ -191,25 +225,36 @@ footer .copy{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.2);padding-
 
 <!-- ============ LANDING ============ -->
 <main class="view on" id="v-home">
-<header class="top"><div class="wrap">
- <a href="#/" aria-label="Cosmos Agencia Creativa"><img src="img/Logo_color.png" alt="Cosmos Agencia Creativa"></a>
- <nav class="links">
-  <a href="#servicios">Servicios</a><a href="#trayectoria">Trayectoria</a><a href="#nosotros">Sobre nosotros</a><a href="#/login">Portal de clientes</a>
-  <a class="btn dark" href="#/cursos">Nuestros cursos</a>
- </nav>
-</div></header>
+<header class="f-nav">
+ <a class="logo" href="#/" aria-label="Cosmos Agencia Creativa"><img src="img/Logo_color.png" alt="Cosmos Agencia Creativa"></a>
+ <nav class="f-links"><a href="#servicios">Servicios</a><a href="#trayectoria">Trayectoria</a><a href="#nosotros">Sobre Nosotros</a><a href="#/login">Portal de Clientes</a></nav>
+ <div class="f-acc"><a class="f-cursos" href="#/cursos">Nuestros Cursos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><div class="f-ext"><span>cosmoscursos.com</span><b>↗ Sitio externo</b></div></div>
+</header>
 
-<section class="hero"><div class="wrap">
- <div>
-  <span class="tag">Diseño con intención. Ideas con personalidad.</span>
-  <h1 style="margin-top:20px">Conectamos tus ideas, impulsamos tu universo.</h1>
-  <p class="lead">Somos tu equipo creativo de confianza. Te ayudamos a crear una identidad que destaque, producir contenido visual que enganche y gestionar tus redes para que tu negocio crezca sin complicaciones y con mucho estilo.</p>
-  <div class="acts"><a class="btn neon" href="#contacto">Inicia tu proyecto</a><a class="btn" href="#contacto">Agenda una asesoría</a></div>
+<section class="f-hero">
+ <div class="f-pres">
+  <div class="f-left">
+   <div class="f-eyebrow"><i></i>Diseño con intención. Ideas con personalidad.</div>
+   <h1>Conectamos<br>tus ideas,<br>impulsamos<br>tu universo.</h1>
+   <svg width="390" height="9" viewBox="0 0 390 9" fill="none" aria-hidden="true"><path d="M2 6.5C70 3 140 4.5 205 5C280 5.5 340 3 388 3.5" stroke="#ff0098" stroke-width="3" stroke-linecap="round"/></svg>
+   <div class="f-intro">
+    <p>Somos tu equipo creativo de confianza. Te ayudamos a crear una identidad que destaque, producir contenido visual que enganche y gestionar tus redes para que tu negocio crezca — sin complicaciones y con mucho estilo.</p>
+    <div class="f-cta">
+     <a class="f-b1" href="#contacto">Inicia tu proyecto <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+     <a class="f-b2" href="#contacto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>Agenda una asesoría</a>
+    </div>
+    <div class="f-proof"><span class="f-dots"><i style="background:var(--n)"></i><i style="background:var(--m)"></i><i style="background:var(--b)"></i></span>Agencia creativa · Diseño · Video · Redes</div>
+   </div>
+  </div>
+  <div class="f-right">
+   <img class="f-img" src="img/escultura-cosmos.png" alt="Estrella 3D de Cosmos con órbita">
+   <div class="f-st f-st1">Menos de lo mismo.</div>
+   <div class="f-st f-st2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/></svg>Más Cosmos.</div>
+   <span class="f-orb"></span>
+  </div>
  </div>
- <div class="orb" aria-hidden="true"><div class="ring"></div><div class="dot" style="width:34px;height:34px;background:var(--m);top:14%;right:16%"></div><div class="dot" style="width:18px;height:18px;background:var(--n);bottom:18%;left:14%"></div><div class="star">★</div></div>
-</div></section>
-
-<div class="band"><div class="wrap"><strong>Grandes ideas. Trato cercano. Cero vueltas.</strong><span>Un equipo creativo para dar forma a lo que imaginas, de la primera charla a la última entrega.</span></div></div>
+ <div class="f-man"><h2>Grandes ideas. Trato cercano. Cero vueltas.</h2><p>Un equipo creativo para dar forma a lo que imaginas, de la primera charla a la última entrega.</p></div>
+</section>
 
 <section id="servicios"><div class="wrap">
  <h2>Todo lo que necesitas en un solo equipo.</h2>
