@@ -20,6 +20,7 @@ img{display:block;max-width:100%}
 
 /* ---------- 1. INTRO (fija; la página sube encima) ---------- */
 .intro{position:sticky;top:0;height:100vh;min-height:620px;background:var(--p);color:var(--w);display:grid;place-items:center;text-align:center;overflow:hidden;z-index:0}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
 .core{position:relative;z-index:2;padding:0 24px;will-change:transform,opacity}
 .core .logo{width:clamp(280px,42vw,620px);margin:0 auto}
 .core h1{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:90vw;max-width:820px;font-size:clamp(1.2rem,3.2vw,2.64rem);margin-top:clamp(22px,4vh,40px)}
@@ -73,6 +74,7 @@ img{display:block;max-width:100%}
 
 <!-- ============ 1. INTRO ============ -->
 <header class="intro" id="intro">
+ <video class="bg" autoplay muted loop playsinline preload="auto" poster="img/fondo-poster.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback><source src="video/fondo.mp4" type="video/mp4"></video>
  <div class="core">
   <img class="logo" src="img/Logo_blanco.png" alt="Cosmos Agencia Creativa">
   <h1>Conectamos tus ideas,<span>impulsamos tu universo.</span></h1>
@@ -171,6 +173,8 @@ function tick(){
  });
  busy=false;
 }
+const vid=document.querySelector('.bg');
+if(matchMedia('(prefers-reduced-motion:reduce)').matches){vid.removeAttribute('autoplay');vid.pause()}else{vid.play().catch(()=>{})}
 if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
  addEventListener('scroll',()=>{if(!busy){busy=true;requestAnimationFrame(tick)}},{passive:true});
  addEventListener('resize',tick);tick();
