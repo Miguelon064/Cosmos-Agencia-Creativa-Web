@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cosmos Agencia Creativa · Conectamos tus ideas, impulsamos tu universo</title>
+<meta name="description" content="Agencia creativa en Portuguesa, Venezuela. Identidad visual, producción de video y gestión de redes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;900&display=swap" rel="stylesheet">
+<style>
+:root{--n:#c8ff00;--m:#ff0098;--b:#0068ff;--p:#3e007a;--w:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',sans-serif;font-weight:500;color:var(--p);background:var(--p);line-height:1.6;overflow-x:hidden}
+h1,h2{font-weight:900;text-transform:uppercase;line-height:1.02}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--b);outline-offset:3px}
+img{display:block;max-width:100%}
+
+/* ---------- 1. INTRO (fija; la página sube encima) ---------- */
+.intro{position:sticky;top:0;height:100vh;min-height:620px;background:var(--p);color:var(--w);display:grid;place-items:center;text-align:center;overflow:hidden;z-index:0}
+.core{position:relative;z-index:2;padding:0 24px;will-change:transform,opacity}
+.core .logo{width:clamp(280px,42vw,620px);margin:0 auto}
+.core h1{font-size:clamp(1.5rem,4vw,3.3rem);margin-top:clamp(22px,4vh,40px)}
+.core h1 span{color:var(--n);display:block}
+.cue{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:3;font:900 .75rem 'Montserrat',sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--n);display:flex;flex-direction:column;align-items:center;gap:6px}
+.cue svg{animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+
+/* elementos flotantes: .px = parallax (JS) · img = flotación (CSS) */
+.px{position:absolute;will-change:transform;pointer-events:none}
+.px img{width:100%;height:auto;animation:fl var(--t,7s) ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes fl{0%,100%{transform:translate(0,0) rotate(var(--r,0deg)) scale(1)}33%{transform:translate(8px,-18px) rotate(calc(var(--r,0deg) + 6deg)) scale(1.04)}66%{transform:translate(-8px,-8px) rotate(calc(var(--r,0deg) - 4deg)) scale(.98)}}
+
+/* ---------- 2. CABECERA + HERO ---------- */
+.main{position:relative;z-index:1;background:var(--w);border-radius:36px 36px 0 0;box-shadow:0 -24px 60px rgba(0,0,0,.25)}
+.nav{position:sticky;top:0;z-index:30;height:108px;padding:0 clamp(20px,5.5vw,80px);display:flex;align-items:center;justify-content:space-between;gap:20px;background:var(--w);border-bottom:1px solid #eadff7;border-radius:36px 36px 0 0}
+.nav .brand img{width:164px;height:auto}.acts{display:flex;gap:12px;align-items:center}
+.links{display:flex;gap:32px;font-size:13px;white-space:nowrap}
+.links a:hover{color:var(--m)}
+.btn{display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 26px;border-radius:100px;border:2px solid var(--p);font:900 .85rem 'Montserrat',sans-serif;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;transition:transform .2s}
+.btn:hover{transform:translateY(-3px)}
+.btn.neon{background:var(--n);border-color:var(--n);color:var(--p)}
+.btn.dark,.btn.mag{height:50px;font-size:.78rem}.btn.dark{background:var(--p);color:var(--n)}.btn.mag{background:var(--m);border-color:var(--m);color:var(--w)}
+.hero{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:72px clamp(20px,5.5vw,80px) 88px}
+.hero>div{position:relative;z-index:1}.hero>.fxbox{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}.band>.fxbox{position:absolute;inset:0;overflow:hidden;pointer-events:none}.band>*{position:relative;z-index:1}.band>.fxbox{position:absolute;z-index:0}
+.eyebrow{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--m)}
+.hero h1{font-size:clamp(2.4rem,5.4vw,4.8rem);margin:18px 0 24px}
+.hero p.lead{font-size:1.1rem;max-width:560px}
+.cta{display:flex;gap:16px;flex-wrap:wrap;margin-top:32px}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.chips span{border:2px solid #eadff7;border-radius:100px;padding:6px 14px;font-size:12px;font-weight:900;text-transform:uppercase}
+.vis{position:relative;max-width:520px;width:100%;aspect-ratio:1/1.04;margin-left:auto}
+.card{position:absolute;inset:3% 0 0 0;background:var(--n);border-radius:36px;display:grid;place-items:center;overflow:hidden}
+.card img{width:76%}
+.st{position:absolute;z-index:3;white-space:nowrap;border-radius:100px;font:900 .95rem 'Montserrat',sans-serif;text-transform:uppercase}
+.st1{left:-4%;top:8%;background:var(--m);color:var(--w);padding:12px 20px;transform:rotate(-8deg)}
+.st2{right:-2%;bottom:6%;background:var(--w);color:var(--p);border:2px solid var(--p);padding:14px 22px;transform:rotate(6deg)}
+.band{position:relative;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;background:var(--p);color:var(--w);padding:36px clamp(20px,5.5vw,80px)}
+.band h2{font-size:clamp(1.3rem,2.4vw,1.9rem)}
+.band p{max-width:380px;font-size:14px}
+
+@media(max-width:900px){
+ .links{display:none}.nav{height:76px}.nav .brand img{width:104px}
+ .hero{grid-template-columns:1fr;padding-top:48px}.vis{margin:0 auto;max-width:420px}
+ .nm{display:none}.acts .btn{padding:0 14px;height:44px;font-size:.68rem}.acts svg{display:none}.nav{gap:10px}.nav .brand img{width:120px}
+}
+@media(prefers-reduced-motion:reduce){.px img,.cue svg{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- ============ 1. INTRO ============ -->
+<header class="intro" id="intro">
+ <div class="core">
+  <img class="logo" src="img/Logo_blanco.png" alt="Cosmos Agencia Creativa">
+  <h1>Conectamos tus ideas,<span>impulsamos tu universo.</span></h1>
+ </div>
+ <a class="cue" href="#inicio" aria-label="Bajar al contenido">Desliza
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+ <div id="fx-intro" aria-hidden="true"></div>
+</header>
+
+<!-- ============ 2. CABECERA + HERO ============ -->
+<div class="main" id="inicio">
+ <nav class="nav">
+  <a class="brand" href="#inicio" aria-label="Cosmos Agencia Creativa"><img src="img/Logo_color.png" alt="Cosmos Agencia Creativa"></a>
+  <div class="links"><a href="#servicios">Servicios</a><a href="#trayectoria">Trayectoria</a><a href="#nosotros">Sobre Nosotros</a></div>
+  <div class="acts">
+   <a class="btn mag" href="#portal">Portal de Clientes</a>
+   <a class="btn dark" href="#" title="cosmoscursos.com (próximamente)">Nuestros Cursos
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+  </div>
+ </nav>
+
+ <section class="hero">
+  <div class="fxbox" id="fx-hero" aria-hidden="true"></div>
+  <div>
+   <p class="eyebrow">Agencia creativa · Acarigua y Araure</p>
+   <h1>Diseño con intención. Ideas con personalidad.</h1>
+   <p class="lead">Somos tu equipo creativo de confianza. Te ayudamos a crear una identidad que destaque, producir contenido visual que enganche y gestionar tus redes, sin complicaciones y con mucho estilo.</p>
+   <div class="cta">
+    <a class="btn neon" href="#contacto">Inicia tu proyecto
+     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <a class="btn" href="#contacto">Agenda una asesoría</a>
+   </div>
+   <div class="chips"><span>Identidad visual</span><span>Contenido visual</span><span>Video</span><span>Redes</span></div>
+  </div>
+  <div class="vis">
+   <div class="card"><img src="img/cosmito-morado.png" alt="Cosmito, la mascota de Cosmos"></div>
+   <div class="st st1">Menos de lo mismo.</div>
+   <div class="st st2">Más Cosmos.</div>
+  </div>
+ </section>
+
+ <div class="band">
+  <div class="fxbox" id="fx-band" aria-hidden="true"></div>
+  <h2>Grandes ideas. Trato cercano. Cero vueltas.</h2>
+  <p>Un equipo creativo para dar forma a lo que imaginas, de la primera charla a la última entrega.</p>
+ </div>
+</div>
+
+<script>
+/* Elementos: [imagen, izq, arriba, ancho, velocidad parallax, giro, retraso, tiempo, ocultar en móvil]
+   Sobre fondo morado: neón y magenta. Sobre blanco/neón: magenta y azul (buen contraste). */
+const intro=[
+ ['planeta','4%','12%','clamp(110px,15vw,230px)',.12,-8,0,8],
+ ['rayo-neon','27%','5%','clamp(50px,6vw,90px)',.28,4,.5,7,1],
+ ['estrella-magenta','61%','6%','clamp(40px,5vw,72px)',.22,-6,.6,7,1],
+ ['estrella-neon','82%','12%','clamp(46px,6.5vw,96px)',.30,6,1.2,6],
+ ['anillo-neon','91%','33%','clamp(40px,5vw,70px)',.16,-10,.2,9,1],
+ ['constelacion','86%','56%','clamp(100px,13vw,200px)',.18,0,.3,9,1],
+ ['luna-azul','73%','75%','clamp(64px,8vw,120px)',.10,8,1.5,10,1],
+ ['ovni-neon','7%','72%','clamp(110px,14vw,210px)',.34,-4,.9,8],
+ ['cosmito-neon','3%','46%','clamp(70px,9vw,130px)',.26,-6,.4,7]
+];
+const hero=[
+ ['mancha-azul','2%','4%','clamp(46px,6vw,88px)',.05,-8,.3,9,1],
+ ['estrella-azul','47%','5%','clamp(48px,6vw,86px)',-.06,8,0,7],
+ ['espiral-azul','90%','7%','clamp(64px,8vw,120px)',-.05,6,1,10],
+ ['curva-magenta','51%','78%','clamp(30px,4vw,56px)',-.04,0,1.3,8,1],
+ ['remolino-azul','1.5%','80%','clamp(70px,9vw,120px)',.05,-6,.8,9],
+ ['rayo-azul','90%','78%','clamp(60px,7vw,100px)',.06,4,.5,8]
+];
+const band=[
+ ['curva-neon','46%','8%','clamp(44px,5vw,70px)',.08,0,.4,8,1]
+];
+function build(id,arr,isIntro){
+ const box=document.getElementById(id);
+ arr.forEach(([img,l,t,w,s,r,d,tm,nm])=>{
+  const e=document.createElement('div');
+  e.className='px'+(nm?' nm':'');e.dataset.s=s;if(isIntro)e.dataset.i=1;
+  e.style.cssText=`left:${l};top:${t};width:${w};--r:${r}deg;--d:${d}s;--t:${tm}s`;
+  e.innerHTML=`<img src="img/${img}.png" alt="">`;box.appendChild(e);
+ });
+}
+build('fx-intro',intro,true);build('fx-hero',hero,false);build('fx-band',band,false);
+
+/* Parallax: la intro se queda fija, los elementos se desplazan a distinta velocidad y el contenido se desvanece */
+const core=document.querySelector('.core'),px=[...document.querySelectorAll('.px')];
+let busy=false;
+function tick(){
+ const y=scrollY,vh=innerHeight;
+ core.style.transform=`translate3d(0,${y*.35}px,0)`;
+ core.style.opacity=Math.max(0,1-y/(vh*.7));
+ px.forEach(e=>{
+  const s=+e.dataset.s;
+  if(e.dataset.i){e.style.transform=`translate3d(0,${y*s}px,0)`}
+  else{const r=e.parentElement.getBoundingClientRect();e.style.transform=`translate3d(0,${(r.top+r.height/2-vh/2)*s}px,0)`}
+ });
+ busy=false;
+}
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
+ addEventListener('scroll',()=>{if(!busy){busy=true;requestAnimationFrame(tick)}},{passive:true});
+ addEventListener('resize',tick);tick();
+}
+</script>
+</body>
+</html>
