@@ -24,16 +24,16 @@ html,body{background:#fff;font-family:'Montserrat',sans-serif;overflow-x:hidden}
 
 /* Posiciones y medidas tomadas de la referencia (1920x1080) */
 #logo{left:40px;top:30px;width:212px}
-#espiral{left:346px;top:-120px;width:282px}
-#camara{left:1270px;top:42px;width:205px}
-#constelacion{left:1617px;top:0;width:360px}
-#luna{left:27px;top:233px;width:150px}
-#planeta{left:473px;top:236px;width:160px}
-#estrella-neon{left:252px;top:365px;width:114px}
-#zigzag{left:-106px;top:516px;width:318px}
-#estrella-azul{left:-34px;top:725px;width:136px}
-#remolino{left:1838px;top:752px;width:137px}
-#ovni{left:1588px;top:540px;width:309px}
+#espiral{left:367px;top:-97px;width:240px}
+#camara{left:1285px;top:52px;width:174px}
+#constelacion{left:1617px;top:0;width:306px}
+#luna{left:38px;top:245px;width:128px}
+#planeta{left:485px;top:245px;width:136px}
+#estrella-neon{left:260px;top:374px;width:97px}
+#zigzag{left:-82px;top:525px;width:270px}
+#estrella-azul{left:-24px;top:735px;width:116px}
+#remolino{left:1848px;top:765px;width:117px}
+#ovni{left:1611px;top:554px;width:263px}
 
 /* Flotación sutil, cada elemento con su ritmo */
 @keyframes float{
@@ -112,7 +112,7 @@ html,body{background:#fff;font-family:'Montserrat',sans-serif;overflow-x:hidden}
   function fit(){
     if(vertical.matches){stage.style.transform='';return;}
     var w=window.innerWidth,h=window.innerHeight;
-    var s=Math.max(w/1920,h/1080);               // cubre toda la pantalla
+    var s=Math.min(w/1920,h/1080);               // todo el diseño siempre visible (logo incluido)
     var x=(w-1920*s)/2,y=(h-1080*s)/2;
     stage.style.transform='translate('+x+'px,'+y+'px) scale('+s+')';
   }
