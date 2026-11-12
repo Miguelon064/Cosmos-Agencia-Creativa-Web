@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cosmos Agencia Creativa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--neon:#c8ff00;--magenta:#ff0098;--azul:#0068ff;--morado:#3e007a}
+*{margin:0;padding:0;box-sizing:border-box}
+html{overflow-x:hidden;scroll-behavior:smooth}
+body{background:#fff;font-family:'Montserrat',sans-serif;font-weight:500;color:var(--morado)}
+
+/* ===== HERO (fijo, la página siguiente sube encima como cortina) ===== */
+#hero{position:fixed;top:0;left:0;width:100%;height:100vh;height:100svh;overflow:hidden;z-index:0;
+  background:linear-gradient(180deg,#6d36a3 0%,#55208f 100%);will-change:transform}
+#stage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:0 0}
+.el{position:absolute;display:block}
+.el img{display:block;width:100%;height:auto;animation:float var(--d,7s) ease-in-out var(--dl,0s) infinite;will-change:transform}
+#main{position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:5;pointer-events:none}
+#main img{display:block;width:100%;height:100%}
+
+/* Posiciones y medidas (diseño 1920x1080) */
+#espiral{left:367px;top:-97px;width:240px}
+#camara{left:1285px;top:52px;width:174px}
+#constelacion{left:1617px;top:0;width:306px}
+#luna{left:38px;top:245px;width:128px}
+#planeta{left:485px;top:245px;width:136px}
+#estrella-neon{left:260px;top:374px;width:97px}
+#zigzag{left:-82px;top:525px;width:270px}
+#estrella-azul{left:-24px;top:735px;width:116px}
+#remolino{left:1848px;top:765px;width:117px}
+#ovni{left:1611px;top:554px;width:263px}
+
+/* Flotación sutil (20% más rápida) */
+@keyframes float{
+  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
+  25%{transform:translate3d(1.2%,-3%,0) rotate(1.2deg)}
+  50%{transform:translate3d(0,-5%,0) rotate(0deg)}
+  75%{transform:translate3d(-1.2%,-2.5%,0) rotate(-1.2deg)}
+}
+#espiral img{--d:6.4s;--dl:-0.8s}
+#camara img{--d:5.2s;--dl:-2.4s}
+#constelacion img{--d:7.2s;--dl:-4s}
+#luna img{--d:6s;--dl:-1.6s}
+#planeta img{--d:6.8s;--dl:-3.2s}
+#estrella-neon img{--d:4.8s;--dl:-1.2s}
+#zigzag img{--d:5.6s;--dl:-2.8s}
+#estrella-azul img{--d:7.6s;--dl:-4.8s}
+#remolino img{--d:5.8s;--dl:-2s}
+#ovni img{--d:6.6s;--dl:-3.6s}
+
+/* ===== PÁGINA SIGUIENTE (sube sobre el hero) ===== */
+#next{position:relative;z-index:2;margin-top:100vh;margin-top:100svh;background:#fff}
+
+/* Cabecera */
+#top{position:sticky;top:0;z-index:20;height:76px;background:#fff;border-bottom:3px solid var(--morado);
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 3vw}
+#top nav{display:flex;gap:clamp(18px,2.6vw,44px)}
+#top nav a{position:relative;color:var(--morado);text-decoration:none;font-weight:700;font-size:15px;padding:6px 0}
+#top nav a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:3px;border-radius:3px;background:var(--magenta);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+#top nav a:hover::after{transform:scaleX(1)}
+#top .brand{display:block;line-height:0}
+#top .brand img{height:40px;width:auto;display:block}
+#top .actions{display:flex;gap:12px;justify-content:flex-end}
+.btn{display:inline-block;text-decoration:none;font-weight:700;font-size:15px;padding:12px 26px;border-radius:999px;transition:transform .2s}
+.btn:hover{transform:translateY(-2px) scale(1.04)}
+.btn-login{background:var(--magenta);color:#fff}
+.btn-signup{background:var(--morado);color:var(--neon)}
+
+/* Sobre nosotros */
+#sobre-nosotros{position:relative;overflow:hidden;min-height:calc(100vh - 79px);scroll-margin-top:79px;
+  padding:12vh 8vw;display:flex;align-items:center;background:#fff}
+.about-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr 1fr;gap:6vw;align-items:center;max-width:1300px;margin:0 auto;width:100%}
+.about-title{font-weight:900;text-transform:uppercase;font-size:clamp(36px,5vw,76px);line-height:1;margin-bottom:28px}
+.about-title span{color:var(--magenta);display:block}
+.about-text p{font-size:clamp(16px,1.3vw,20px);line-height:1.7;margin-bottom:16px;max-width:560px}
+.tagline{display:inline-block;margin-top:12px;background:var(--morado);color:var(--neon);font-weight:900;text-transform:uppercase;
+  font-size:clamp(14px,1.2vw,18px);padding:14px 28px;border-radius:999px}
+.cards{display:flex;flex-direction:column;gap:18px}
+.card{background:#fff;border:3px solid var(--c);border-radius:26px;padding:22px 26px}
+.card h3{font-weight:900;text-transform:uppercase;font-size:clamp(17px,1.5vw,22px);color:var(--c);margin-bottom:6px}
+.card p{font-size:clamp(14px,1.1vw,17px);line-height:1.55}
+.card:nth-child(1){--c:var(--magenta)}
+.card:nth-child(2){--c:var(--azul)}
+.card:nth-child(3){--c:var(--morado)}
+.deco{z-index:0}
+#d1{left:2vw;top:6vh;width:110px}
+#d2{right:3vw;top:4vh;width:120px}
+#d3{left:4vw;bottom:6vh;width:80px}
+#d4{right:5vw;bottom:5vh;width:100px}
+#d5{left:46vw;top:3vh;width:80px}
+#d1 img{--d:6.6s;--dl:-1s}#d2 img{--d:7.4s;--dl:-3s}#d3 img{--d:5.6s;--dl:-2s}#d4 img{--d:6.2s;--dl:-4s}#d5 img{--d:5.8s;--dl:-0.5s}
+
+/* Cabecera: izquierda */
+#top .left{display:flex;align-items:center;gap:clamp(16px,2vw,32px)}
+.social{display:flex;gap:10px}
+.social a{width:42px;height:42px;border-radius:50%;border:2.5px solid var(--morado);color:var(--morado);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.social a svg{width:20px;height:20px}
+.social a:hover{background:var(--morado);color:var(--neon);transform:translateY(-2px)}
+
+/* Nuestros servicios */
+#servicios,#cursos{scroll-margin-top:79px;position:relative;overflow:hidden;min-height:calc(100vh - 79px);padding:10vh 8vw;display:flex;align-items:center;background:#fff}
+.svc-grid{display:grid;grid-template-columns:1fr auto;gap:5vw;align-items:center;max-width:1300px;margin:0 auto;width:100%}
+.sec-label{font-weight:900;text-transform:uppercase;font-size:clamp(14px,1.2vw,18px);letter-spacing:.08em;color:var(--magenta);margin-bottom:22px}
+.svc-item{display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;font-family:inherit;font-weight:900;text-transform:uppercase;
+  font-size:clamp(28px,3.8vw,60px);line-height:1.1;color:var(--morado);padding:12px 0;transition:color .2s,transform .25s}
+.svc-item small{display:block;font-size:clamp(12px,1vw,15px);font-weight:700;color:var(--magenta);letter-spacing:.08em;margin-bottom:2px}
+.svc-item:hover{color:var(--magenta);transform:translateX(10px)}
+.svc-item.active{color:var(--magenta);transform:translateX(18px)}
+.svc-stage{position:relative;width:min(38vw,64vh,640px);aspect-ratio:1/1;border:3px solid var(--morado);border-radius:32px;overflow:hidden;background:#fff}
+.slider{position:absolute;inset:0}
+.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease}
+.slide.on{opacity:1}
+.dots{position:absolute;left:0;right:0;bottom:16px;display:flex;justify-content:center;gap:8px;z-index:2}
+.dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.55);cursor:pointer;transition:all .3s}
+.dots i.on{background:#fff;width:28px;border-radius:6px}
+.svc-detail{position:absolute;inset:0;z-index:1;background:#fff;padding:6% 7%;display:flex;flex-direction:column;justify-content:center;gap:2.2%;
+  clip-path:inset(0 100% 0 0);pointer-events:none;transition:clip-path .55s ease}
+.svc-detail.show{z-index:3;clip-path:inset(0 0 0 0);pointer-events:auto}
+.svc-x{position:absolute;top:16px;right:16px;width:42px;height:42px;border-radius:50%;border:0;background:var(--magenta);color:#fff;font-size:28px;line-height:1;cursor:pointer;transition:transform .2s}
+.svc-x:hover{transform:rotate(90deg) scale(1.08)}
+.d-head{display:flex;align-items:center;gap:18px;padding-right:48px}
+.d-head img{width:22%;aspect-ratio:1/1;object-fit:cover;border-radius:18px;border:2px solid var(--morado)}
+.d-head h3{font-weight:900;text-transform:uppercase;font-size:clamp(20px,2.2vw,34px);line-height:1.05;color:var(--morado)}
+.svc-detail p{font-size:clamp(14px,1.1vw,17px);line-height:1.6}
+.svc-detail ul{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:clamp(13px,1vw,16px);font-weight:700}
+.svc-detail li::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--magenta);margin-right:10px}
+.svc-detail .btn{align-self:flex-start;margin-top:6px}
+
+/* Cursos */
+.cursos-wrap{position:relative;z-index:1;max-width:1300px;margin:0 auto;width:100%;text-align:center}
+.cursos-title{font-weight:900;text-transform:uppercase;font-size:clamp(30px,4.2vw,64px);line-height:1.05;margin-bottom:14px}
+.cursos-title span{color:var(--magenta)}
+.cursos-sub{font-size:clamp(16px,1.3vw,20px);margin-bottom:48px}
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;text-align:left}
+.course{position:relative;border-radius:28px;padding:32px 30px;min-height:300px;display:flex;flex-direction:column;border:3px solid var(--c,var(--morado))}
+.course.on{background:var(--morado);color:#fff}
+.course.soon{border-style:dashed}
+.badge{align-self:flex-start;font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:.06em;padding:7px 14px;border-radius:999px}
+.on .badge{background:var(--neon);color:var(--morado)}
+.soon .badge{background:var(--c);color:#fff}
+.course h3{font-weight:900;text-transform:uppercase;font-size:clamp(22px,2.2vw,34px);line-height:1.05;margin:34px 0 10px;padding-right:0}
+.on h3{color:var(--neon)}
+.soon h3{color:var(--c)}
+.course p{font-size:clamp(14px,1.1vw,17px);line-height:1.55;margin-bottom:22px}
+.course .btn{margin-top:auto;align-self:flex-start}
+.btn-neon{background:var(--neon);color:var(--morado)}
+.cimg{position:absolute;right:22px;top:16px;width:50px}
+
+/* ===== CELULAR (versión provisional; se trabaja después) ===== */
+@media (max-aspect-ratio:9/10){
+  #stage{width:100%;height:100%;transform:none !important}
+  #main{left:0;top:50%;width:100%;height:auto;transform:translateY(-50%)}
+  #main img{height:auto}
+  #espiral{left:42vw;top:-3svh;width:30vw}
+  #camara{left:auto;right:4vw;top:9svh;width:25vw}
+  #luna{left:5vw;top:15svh;width:19vw}
+  #planeta{left:30vw;top:19svh;width:22vw}
+  #constelacion{left:auto;right:-6vw;top:17svh;width:30vw}
+  #estrella-neon{left:8vw;top:68svh;width:15vw}
+  #zigzag{left:-6vw;top:80svh;width:34vw}
+  #ovni{left:auto;right:-8vw;top:68svh;width:44vw}
+  #estrella-azul{left:30vw;top:84svh;width:17vw}
+  #remolino{left:auto;right:6vw;top:86svh;width:16vw}
+}
+@media (max-width:900px){
+  #top .left{display:none}
+  #top{grid-template-columns:auto 1fr;padding:0 4vw}
+  #top .actions{gap:8px}
+  .btn{padding:9px 14px;font-size:13px}
+  #top .brand img{height:30px}
+  .about-grid,.svc-grid,.course-grid{grid-template-columns:1fr}
+  .svc-stage{width:100%}
+}
+@media (prefers-reduced-motion:reduce){.el img{animation:none}}
+</style>
+</head>
+<body>
+
+<section id="hero">
+  <div id="stage">
+    <div class="el" id="espiral"><img src="img/espiral-neon.png" alt=""></div>
+    <div class="el" id="camara"><img src="img/camara.png" alt=""></div>
+    <div class="el" id="constelacion"><img src="img/constelacion.png" alt=""></div>
+    <div class="el" id="luna"><img src="img/luna-azul.png" alt=""></div>
+    <div class="el" id="planeta"><img src="img/planeta.png" alt=""></div>
+    <div class="el" id="estrella-neon"><img src="img/estrella-neon.png" alt=""></div>
+    <div class="el" id="zigzag"><img src="img/zigzag-neon.png" alt=""></div>
+    <div class="el" id="estrella-azul"><img src="img/estrella-azul.png" alt=""></div>
+    <div class="el" id="remolino"><img src="img/remolino-azul.png" alt=""></div>
+    <div class="el" id="ovni"><img src="img/ovni-neon.png" alt=""></div>
+    <!-- Imagen principal: estática -->
+    <div id="main"><img src="img/imagen-principal.png" alt="Equipo de Cosmos Agencia Creativa"></div>
+  </div>
+</section>
+
+<div id="next">
+  <header id="top">
+    <div class="left">
+      <div class="social">
+        <a href="https://www.instagram.com/cosmos_agenciacreativa/" target="_blank" rel="noopener" aria-label="Instagram de Cosmos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://wa.me/584220433936" target="_blank" rel="noopener" aria-label="WhatsApp de Cosmos">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </a>
+      </div>
+      <nav>
+        <a href="#servicios">Nuestros servicios</a>
+        <a href="#cursos">Cursos</a>
+        <a href="#sobre-nosotros">Sobre nosotros</a>
+      </nav>
+    </div>
+    <a class="brand" href="#"><img src="img/logo-color.png" alt="Cosmos Agencia Creativa"></a>
+    <div class="actions">
+      <a class="btn btn-login" href="#">Iniciar sesión</a>
+      <a class="btn btn-signup" href="#">Inicia tu proyecto</a>
+    </div>
+  </header>
+
+  <section id="servicios">
+    <div class="svc-grid">
+      <div class="svc-left">
+        <h2 class="sec-label">Nuestros servicios</h2>
+        <button class="svc-item" data-i="0"><small>01</small>Identidad visual</button>
+        <button class="svc-item" data-i="1"><small>02</small>Gestión de redes</button>
+        <button class="svc-item" data-i="2"><small>03</small>Producción de video</button>
+      </div>
+      <div class="svc-stage" id="svcStage">
+        <div class="slider">
+          <img class="slide on" src="img/servicio-identidad.png" alt="Identidad visual">
+          <img class="slide" src="img/servicio-redes.png" alt="Gestión de redes">
+          <img class="slide" src="img/servicio-video.png" alt="Producción de video">
+          <div class="dots"><i class="on"></i><i></i><i></i></div>
+        </div>
+        <article class="svc-detail">
+          <button class="svc-x" aria-label="Cerrar">&times;</button>
+          <div class="d-head"><img src="img/servicio-identidad.png" alt=""><h3>Identidad visual</h3></div>
+          <p>Creamos el logo y la guía de marca de tu negocio: colores, tipografías y reglas de uso para que te veas coherente en todos lados.</p>
+          <ul><li>Logo en versión a color, blanco y negro</li><li>Paleta de colores y tipografías</li><li>Guía de marca lista para usar</li></ul>
+          <a class="btn btn-signup" href="#">Inicia tu proyecto</a>
+        </article>
+        <article class="svc-detail">
+          <button class="svc-x" aria-label="Cerrar">&times;</button>
+          <div class="d-head"><img src="img/servicio-redes.png" alt=""><h3>Gestión de redes</h3></div>
+          <p>Nos encargamos de tus redes cada mes: ideas, diseños y publicaciones para que tu marca esté siempre activa y la gente la reconozca.</p>
+          <ul><li>Plan de contenido mensual</li><li>Diseño de publicaciones y stories</li><li>Publicación y seguimiento</li></ul>
+          <a class="btn btn-signup" href="#">Inicia tu proyecto</a>
+        </article>
+        <article class="svc-detail">
+          <button class="svc-x" aria-label="Cerrar">&times;</button>
+          <div class="d-head"><img src="img/servicio-video.png" alt=""><h3>Producción de video</h3></div>
+          <p>Producimos videos frescos para tu marca, desde la idea hasta la edición final, listos para que brillen en redes.</p>
+          <ul><li>Reels y videos para redes</li><li>Grabación y edición</li><li>Ideas creativas a tu medida</li></ul>
+          <a class="btn btn-signup" href="#">Inicia tu proyecto</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="cursos">
+    <div class="cursos-wrap">
+      <h2 class="cursos-title">Inscríbete en nuestros <span>cursos disponibles</span></h2>
+      <p class="cursos-sub">Aprende con el equipo de Cosmos, a tu ritmo y sin estrés.</p>
+      <div class="course-grid">
+        <div class="course on">
+          <img class="cimg" src="img/estrella-neon.png" alt="">
+          <span class="badge">Disponible</span>
+          <h3>Curso de CapCut</h3>
+          <p>Aprende a editar videos para tus redes desde cero, de forma fácil y creativa.</p>
+          <a class="btn btn-neon" href="#">Quiero inscribirme</a>
+        </div>
+        <div class="course soon" style="--c:var(--azul)">
+          <img class="cimg" src="img/estrella-azul.png" alt="">
+          <span class="badge">Próximamente</span>
+          <h3>Curso de Creatividad</h3>
+          <p>Aprende a generar ideas originales y convertirlas en contenido que destaque.</p>
+        </div>
+        <div class="course soon" style="--c:var(--magenta)">
+          <img class="cimg" src="img/estrella-magenta.png" alt="">
+          <span class="badge">Próximamente</span>
+          <h3>Curso de Diseño gráfico</h3>
+          <p>Domina las bases del diseño para crear piezas que llamen la atención.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre-nosotros">
+    <div class="el deco" id="d1"><img src="img/rayo-azul.png" alt=""></div>
+    <div class="el deco" id="d2"><img src="img/espiral-azul.png" alt=""></div>
+    <div class="el deco" id="d3"><img src="img/estrella-magenta.png" alt=""></div>
+    <div class="el deco" id="d4"><img src="img/mancha-azul.png" alt=""></div>
+    <div class="el deco" id="d5"><img src="img/curva-magenta.png" alt=""></div>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <h2 class="about-title">Sobre <span>nosotros</span></h2>
+        <p>Somos Cosmos, una agencia creativa de Acarigua y Araure, en Portuguesa, Venezuela. Un equipo joven que convierte ideas en marcas con personalidad, para que tu negocio se vea increíble y la gente lo recuerde.</p>
+        <p>Conectamos tus ideas, impulsamos tu universo. Nos encargamos de la parte creativa para que tú te ocupes de lo que mejor sabes hacer.</p>
+        <span class="tagline">Creatividad sin estrés</span>
+      </div>
+      <div class="cards">
+        <div class="card"><h3>Identidad visual</h3><p>Tu logo con su guía de marca, para que tu negocio tenga una cara única y coherente.</p></div>
+        <div class="card"><h3>Gestión de redes</h3><p>Contenido y comunidad cada mes, sin que tengas que pensar qué publicar.</p></div>
+        <div class="card"><h3>Producción de video</h3><p>Videos frescos y bien editados que la gente quiere ver hasta el final.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var hero=document.getElementById('hero'),stage=document.getElementById('stage');
+  var vertical=window.matchMedia('(max-aspect-ratio: 9/10)');
+  function fit(){
+    if(vertical.matches){stage.style.transform='';return;}
+    var w=window.innerWidth,h=window.innerHeight;
+    var s=Math.min(w/1920,h/1080);
+    var x=(w-1920*s)/2,y=(h-1080*s)/2;
+    stage.style.transform='translate('+x+'px,'+y+'px) scale('+s+')';
+  }
+  function parallax(){
+    var y=window.scrollY,h=window.innerHeight;
+    if(y<=h){hero.style.transform='translate3d(0,'+(-y*0.35)+'px,0)';}
+  }
+  window.addEventListener('resize',fit);
+  window.addEventListener('scroll',parallax,{passive:true});
+  fit();parallax();
+})();
+</script>
+<script>
+(function(){
+  var items=[].slice.call(document.querySelectorAll('.svc-item')),
+      panels=[].slice.call(document.querySelectorAll('.svc-detail')),
+      slides=[].slice.call(document.querySelectorAll('.slide')),
+      dots=[].slice.call(document.querySelectorAll('.dots i')),cur=0,timer;
+  function openSvc(i){items.forEach(function(b,k){b.classList.toggle('active',k===i)});
+    panels.forEach(function(p,k){p.classList.toggle('show',k===i)});clearInterval(timer);}
+  function closeSvc(){items.forEach(function(b){b.classList.remove('active')});
+    panels.forEach(function(p){p.classList.remove('show')});start();}
+  items.forEach(function(b,k){b.addEventListener('click',function(){openSvc(k)})});
+  [].forEach.call(document.querySelectorAll('.svc-x'),function(x){x.addEventListener('click',closeSvc)});
+  function go(n){cur=(n+slides.length)%slides.length;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===cur)});
+    dots.forEach(function(d,k){d.classList.toggle('on',k===cur)});}
+  function start(){clearInterval(timer);timer=setInterval(function(){go(cur+1)},4500);}
+  dots.forEach(function(d,k){d.addEventListener('click',function(){go(k);start()})});
+  start();
+})();
+</script>
+</body>
+</html>
