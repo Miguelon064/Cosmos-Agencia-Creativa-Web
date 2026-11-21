@@ -211,11 +211,12 @@ var I={
 
 /* ================== Datos ================== */
 var K={users:'cosmos_users',ses:'cosmos_session',courses:'cosmos_cursos',orders:'cosmos_solicitudes',subs:'cosmos_subprefs',q:'cosmos_calidad'};
-var REAL1=[{label:'1080p',url:'video/clase1-1080.mp4'},{label:'720p',url:'video/clase1-720.mp4'},{label:'480p',url:'video/clase1-480.mp4'}];
+var TITLES=['Conociendo CapCut en tu teléfono','La línea de tiempo y cortes básicos','Formato y exportación','Audio básico','Texto y títulos','Subtítulos automáticos','Transiciones y animaciones','Velocidad y ritmo','Efectos y filtros','Corrección de color básica','Capas y pistas superpuestas','Fotogramas clave (keyframes)','Herramientas de IA y fondo','Plantillas y sincronización con música','Proyecto final integrador'];
+var SUM={1:'En esta primera clase conoceremos CapCut y daremos los primeros pasos para empezar a editar tus videos.',2:'Aprende a usar la línea de tiempo y a hacer los cortes básicos para armar tu video.'};
+function vids(n){return [{label:'1080p',url:'video/clase'+n+'-1080.mp4'},{label:'720p',url:'video/clase'+n+'-720.mp4'},{label:'480p',url:'video/clase'+n+'-480.mp4'}]}
+var LIVE=[1,2];
 function defaultCourses(){
-  var cl=[];for(var i=1;i<=15;i++)cl.push({n:i,title:'Clase '+i,summary:'',published:i===1,sources:[],subs:'',subsName:''});
-  cl[0].summary='En esta primera clase conoceremos CapCut y daremos los primeros pasos para empezar a editar tus videos.';
-  cl[0].sources=REAL1.slice();
+  var cl=[];for(var i=1;i<=15;i++)cl.push({n:i,title:'Clase '+i+': '+TITLES[i-1],summary:SUM[i]||'',published:LIVE.indexOf(i)>-1,sources:LIVE.indexOf(i)>-1?vids(i):[],subs:'',subsName:''});
   return [
     {id:'capcut',title:'Curso de CapCut',summary:'Aprende a editar videos para tus redes desde cero, de forma fácil y creativa. Un curso práctico paso a paso con el equipo de Cosmos.',available:true,classes:cl},
     {id:'creatividad',title:'Curso de Creatividad',summary:'Aprende a generar ideas originales y convertirlas en contenido que destaque.',available:false,classes:[]},
@@ -226,9 +227,17 @@ function users(){return DB.get(K.users,[])}
 function courses(){
   var c=DB.get(K.courses,null);
   if(!c){c=defaultCourses();DB.set(K.courses,c);return c}
-  /* migración: si la clase 1 todavía tiene el video de relleno (solo 720p y 480p), se actualiza a las 3 calidades */
-  var k=c[0]&&c[0].id==='capcut'&&c[0].classes[0];
-  if(k&&k.sources.length===2&&k.sources[0].url==='video/clase1-720.mp4'&&k.sources[1].url==='video/clase1-480.mp4'){k.sources=REAL1.slice();DB.set(K.courses,c)}
+  /* Actualiza datos guardados antes: solo rellena lo que todavía está "por defecto" y respeta lo que editaste */
+  var cp=c.filter(function(x){return x.id==='capcut'})[0],ch=false;
+  if(cp)cp.classes.forEach(function(k){
+    var d=defaultCourses()[0].classes[k.n-1];if(!d)return;
+    if(k.title==='Clase '+k.n){k.title=d.title;ch=true}
+    if(!k.summary&&d.summary){k.summary=d.summary;ch=true}
+    var known=k.sources.every(function(s){return /^video\/clase\d+-(1080|720|480)\.mp4$/.test(s.url)});
+    if(d.published&&!k.published&&!k.sources.length){k.published=true;k.sources=d.sources;ch=true}
+    else if(d.sources.length&&known&&k.sources.length<3){k.sources=d.sources;ch=true}
+  });
+  if(ch)DB.set(K.courses,c);
   return c;
 }
 function saveCourses(c){if(DB.set(K.courses,c))toast('Guardado')}
