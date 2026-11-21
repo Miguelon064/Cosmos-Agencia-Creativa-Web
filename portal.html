@@ -211,10 +211,11 @@ var I={
 
 /* ================== Datos ================== */
 var K={users:'cosmos_users',ses:'cosmos_session',courses:'cosmos_cursos',orders:'cosmos_solicitudes',subs:'cosmos_subprefs',q:'cosmos_calidad'};
+var REAL1=[{label:'1080p',url:'video/clase1-1080.mp4'},{label:'720p',url:'video/clase1-720.mp4'},{label:'480p',url:'video/clase1-480.mp4'}];
 function defaultCourses(){
   var cl=[];for(var i=1;i<=15;i++)cl.push({n:i,title:'Clase '+i,summary:'',published:i===1,sources:[],subs:'',subsName:''});
   cl[0].summary='En esta primera clase conoceremos CapCut y daremos los primeros pasos para empezar a editar tus videos.';
-  cl[0].sources=[{label:'720p',url:'video/clase1-720.mp4'},{label:'480p',url:'video/clase1-480.mp4'}];
+  cl[0].sources=REAL1.slice();
   return [
     {id:'capcut',title:'Curso de CapCut',summary:'Aprende a editar videos para tus redes desde cero, de forma fácil y creativa. Un curso práctico paso a paso con el equipo de Cosmos.',available:true,classes:cl},
     {id:'creatividad',title:'Curso de Creatividad',summary:'Aprende a generar ideas originales y convertirlas en contenido que destaque.',available:false,classes:[]},
@@ -222,7 +223,14 @@ function defaultCourses(){
   ];
 }
 function users(){return DB.get(K.users,[])}
-function courses(){return DB.get(K.courses,null)||(DB.set(K.courses,defaultCourses()),defaultCourses())}
+function courses(){
+  var c=DB.get(K.courses,null);
+  if(!c){c=defaultCourses();DB.set(K.courses,c);return c}
+  /* migración: si la clase 1 todavía tiene el video de relleno (solo 720p y 480p), se actualiza a las 3 calidades */
+  var k=c[0]&&c[0].id==='capcut'&&c[0].classes[0];
+  if(k&&k.sources.length===2&&k.sources[0].url==='video/clase1-720.mp4'&&k.sources[1].url==='video/clase1-480.mp4'){k.sources=REAL1.slice();DB.set(K.courses,c)}
+  return c;
+}
 function saveCourses(c){if(DB.set(K.courses,c))toast('Guardado')}
 function me(){var id=DB.get(K.ses,null);return users().filter(function(u){return u.id===id})[0]||null}
 async function seed(){
@@ -372,7 +380,7 @@ function initPlayer(root,L){
   function btn(c){return $('[data-c="'+c+'"]',root)}
   if(!srcs.length){$('.noVid',root).hidden=false}
   else{
-    var pq=DB.get(K.q,null),k=srcs.map(function(s){return s.label}).indexOf(pq);if(k>-1)qi=k;
+    var lb=srcs.map(function(s){return s.label}),k=lb.indexOf(DB.get(K.q,null));if(k<0)k=lb.indexOf('720p');if(k>-1)qi=k;
     setSrc(qi,false);
   }
   function setSrc(i,keep){
