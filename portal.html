@@ -162,6 +162,14 @@ td input{min-width:170px}td select{min-width:120px}
 .order dl{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;font-size:14px;margin:12px 0}.order dt{font-weight:900;color:var(--magenta)}
 .order dd{line-height:1.5;word-break:break-word}
 .note{background:#f6efff;border-radius:16px;padding:14px 18px;font-size:13px;line-height:1.6;margin-bottom:22px}
+.pbar{height:12px;border-radius:999px;background:rgba(62,0,122,.15);overflow:hidden;margin:10px 0 6px}
+.pbar i{display:block;height:100%;border-radius:999px;background:var(--magenta);transition:width .5s}
+.course.on .pbar{background:rgba(255,255,255,.25)}.course.on .pbar i{background:var(--neon)}
+.course small{font-weight:700;font-size:13px}
+.prog-box{border:3px solid var(--morado);border-radius:24px;padding:18px 24px;margin-bottom:28px;max-width:760px}
+.prog-box b{font-size:clamp(20px,2vw,28px);color:var(--magenta)}
+.rnote{white-space:pre-line;line-height:1.7;max-width:760px;margin-bottom:14px}.rnote a{color:var(--magenta);font-weight:700}
+.accrow{display:grid;grid-template-columns:1.4fr 1fr auto;gap:10px;margin-bottom:6px}
 .av{position:relative;flex:none;width:var(--s,56px);height:var(--s,56px);border-radius:50%;background:var(--magenta);color:#fff;display:grid;place-items:center;overflow:hidden;font-weight:900;font-size:calc(var(--s,56px)*.42)}
 .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .chip{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--morado);border-radius:999px;padding:4px 12px;margin:2px 4px 2px 0;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer}
@@ -231,7 +239,7 @@ function route(){
   var p=(location.hash||'#/').replace(/^#\/?/,'').split('/');
   if(p[0]==='cursos'){
     if(p[2])viewClase(p[1],+p[2]);else if(p[1])viewCurso(p[1]);else viewCursos();
-  }else if(p[0]==='proyectos')viewProyectos();
+  }else if(p[0]==='servicios')viewServicios();
   else if(p[0]==='contacto')viewContacto();
   else if(p[0]==='admin'&&u.role==='admin')viewAdmin(p[1]||'cursos');
   else viewHome();
@@ -261,7 +269,7 @@ function viewAuth(){
    '<div class="tabs"><button data-act="mode" data-m="login" class="'+(reg?'':'on')+'">Iniciar sesión</button><button data-act="mode" data-m="register" class="'+(reg?'on':'')+'">Registrarme</button></div>'+
    '<form id="authForm" novalidate>'+
    (reg?'<div class="fld"><label for="a-name">Nombre y apellido</label><input id="a-name" autocomplete="name"></div>':'')+
-   '<div class="fld"><label for="a-mail">'+(reg?'Correo electrónico':'Correo o usuario')+'</label><input id="a-mail" autocomplete="username"></div>'+
+   '<div class="fld"><label for="a-mail">'+(reg?'Correo electrónico (un perfil por correo)':'Correo o usuario')+'</label><input id="a-mail" autocomplete="username"></div>'+
    '<div class="fld"><label for="a-pass">Contraseña</label><input id="a-pass" type="password" autocomplete="'+(reg?'new-password':'current-password')+'"></div>'+
    '<p class="msg" id="aMsg"></p><button class="btn b-mor full" type="submit">'+(reg?'Crear mi cuenta':'Entrar')+'</button></form>'+
    '<div class="or">o</div><button class="btn google" data-act="google">'+I.g+'Continuar con Google</button>'+
@@ -288,14 +296,14 @@ async function authSubmit(){
 /* ================== Inicio (módulos) ================== */
 function viewHome(){
   var u=me(),slides=[
-   {bg:'var(--morado)',c:'var(--neon)',t:'#fff',h:'Bienvenido a tu universo Cosmos',p:'Aquí encontrarás tus cursos, tus proyectos y cómo contactarnos.',i:'ovni-neon'},
+   {bg:'var(--morado)',c:'var(--neon)',t:'#fff',h:'Bienvenido a tu universo Cosmos',p:'Aquí encontrarás tus cursos, tus servicios y cómo contactarnos.',i:'ovni-neon'},
    {bg:'var(--neon)',c:'var(--morado)',t:'var(--morado)',h:'Aprende CapCut con nosotros',p:'Ya puedes ver la primera clase de nuestro curso.',i:'estrella-magenta'},
    {bg:'#fff',c:'var(--magenta)',t:'var(--morado)',h:'¿Tienes un proyecto en mente?',p:'Escríbenos por WhatsApp y lo hacemos realidad.',i:'mancha-azul'}];
   var b=slides.map(function(s,i){return '<div class="bs'+(i?'':' on')+'" style="background:'+s.bg+';color:'+s.t+'"><h2 style="color:'+s.c+'">'+s.h+'</h2><p>'+s.p+'</p><img src="img/'+s.i+'.png" alt=""></div>'}).join('');
   app.innerHTML=shell('<section class="banner">'+b+'<div class="bdots">'+slides.map(function(_,i){return '<i class="'+(i?'':'on')+'" data-act="bn" data-i="'+i+'"></i>'}).join('')+'</div></section>'+
    '<h2 class="h-mod">Tus módulos</h2><div class="mods">'+
    '<a class="mod" href="#/cursos" style="--c:var(--magenta)"><img src="img/estrella-magenta.png" alt=""><h3>Cursos</h3><p>Tus cursos y nuestro catálogo.</p></a>'+
-   '<a class="mod" href="#/proyectos" style="--c:var(--azul)"><img src="img/mancha-azul.png" alt=""><h3>Proyectos</h3><p>Los proyectos que Cosmos hace para ti.</p></a>'+
+   '<a class="mod" href="#/servicios" style="--c:var(--azul)"><img src="img/mancha-azul.png" alt=""><h3>Servicios de Cosmos</h3><p>Tus servicios activos y nuestro catálogo.</p></a>'+
    '<a class="mod" href="#/contacto" style="--c:var(--morado)"><img src="img/espiral-azul.png" alt=""><h3>Contacto</h3><p>Nuestras redes y nuestro WhatsApp.</p></a>'+
    (u.role==='admin'?'<a class="mod adm" href="#/admin"><img src="img/estrella-neon.png" alt=""><h3>Administración</h3><p>Cursos, usuarios y pedidos.</p></a>':'')+
    '</div>',true);
@@ -308,26 +316,38 @@ function viewHome(){
 /* ================== Cursos ================== */
 function viewCursos(){
   var u=me(),cs=courses().filter(function(c){return c.available&&hasAccess(u,c.id)});
-  app.innerHTML=shell('<div class="sec-h">'+back('#/','Inicio')+'<h1>Mis cursos</h1><a class="btn b-mor" href="cursos.html" style="margin-left:auto">Ver catálogo de cursos</a></div>'+
-   (cs.length?'<div class="grid3">'+cs.map(function(c){return '<a class="course on" href="#/cursos/'+esc(c.id)+'"><span class="badge">Tu curso</span><h3>'+esc(c.title)+'</h3><p>'+esc(c.summary)+'</p></a>'}).join('')+'</div>'
-   :'<div class="soon-box"><h2 style="font-size:clamp(24px,3vw,38px)">Aún no tienes cursos</h2><p>Cuando compres un curso y verifiquemos tu pago, te daremos acceso y aparecerá aquí.</p><p style="margin-top:20px"><a class="btn b-mag" href="cursos.html">Ver catálogo de cursos</a></p></div>'),true);
+  app.innerHTML=shell('<div class="sec-h">'+back('#/','Inicio')+'<h1>Mis cursos</h1><a class="btn b-mor" href="catalogo.html#/cursos" style="margin-left:auto">Ver catálogo de cursos</a></div>'+
+   (cs.length?'<div class="grid3">'+cs.map(function(c){var p=pct(u.id,c),ut=untilTxt(u.id,'curso',c.id);
+     return '<a class="course on" href="#/cursos/'+esc(c.id)+'"><span class="badge">Tu curso</span><h3>'+esc(c.title)+'</h3><p>'+esc(c.summary)+'</p>'+
+      '<div style="margin-top:auto"><div class="pbar"><i style="width:'+p+'%"></i></div><small>'+p+'% completado'+(ut?' · '+esc(ut):'')+'</small></div></a>'}).join('')+'</div>'
+   :'<div class="soon-box"><h2 style="font-size:clamp(24px,3vw,38px)">Aún no tienes cursos</h2><p>Cuando compres un curso y verifiquemos tu pago, te daremos acceso y aparecerá aquí.</p><p style="margin-top:20px"><a class="btn b-mag" href="catalogo.html#/cursos">Ver catálogo de cursos</a></p></div>'),true);
 }
 function findCourse(id){return courses().filter(function(c){return c.id===id})[0]}
+function progBox(u,c){var p=pct(u.id,c);return '<div class="prog-box"><b id="pctTxt">Tu avance: '+p+'%</b><div class="pbar" style="height:16px"><i id="pctBar" style="width:'+p+'%"></i></div><small>Completa todas las unidades para terminar el curso.</small></div>'}
 function viewCurso(id){
-  var c=findCourse(id);if(!c||!c.available||!hasAccess(me(),id)){toast('No tienes acceso a este curso');go('#/cursos');return}
-  app.innerHTML=shell('<div class="sec-h">'+back('#/cursos','Cursos')+'</div><p class="crumb">Curso</p><h1 style="font-size:clamp(28px,4vw,56px);margin-bottom:14px">'+esc(c.title)+'</h1>'+
-   '<p class="lead">'+esc(c.summary)+'</p><h3 style="margin-bottom:14px">Clases</h3><div class="cl">'+
-   c.classes.map(function(k){
-     return k.published?'<a class="cl-i" href="#/cursos/'+esc(c.id)+'/'+k.n+'"><span class="num">'+k.n+'</span>'+esc(k.title)+'<span class="s">Ver clase →</span></a>'
+  var u=me(),c=findCourse(id);if(!c||!c.available||!hasAccess(u,id)){toast('No tienes acceso a este curso');go('#/cursos');return}
+  var dn=doneList(u.id,id);
+  app.innerHTML=shell('<div class="sec-h">'+back('#/cursos','Mis cursos')+'</div><p class="crumb">Curso</p><h1 style="font-size:clamp(28px,4vw,56px);margin-bottom:14px">'+esc(c.title)+'</h1>'+
+   '<p class="lead">'+esc(c.summary)+'</p>'+progBox(u,c)+'<h3 style="margin-bottom:14px">Clases</h3><div class="cl">'+
+   c.classes.map(function(k){var ok=dn.indexOf(k.n)>-1;
+     return k.published?'<a class="cl-i" href="#/cursos/'+esc(c.id)+'/'+k.n+'"><span class="num"'+(ok?' style="background:var(--morado);color:var(--neon)"':'')+'>'+(ok?'✓':k.n)+'</span>'+esc(k.title)+'<span class="s">'+(ok?'Completada':'Ver clase →')+'</span></a>'
        :'<div class="cl-i lock"><span class="num" style="background:#cfc4de;color:var(--morado)">'+k.n+'</span>'+esc(k.title)+'<span class="s">Próximamente</span></div>';
    }).join('')+'</div>');
 }
+function linkify(x){return esc(x).replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')}
+function resHtml(k){
+  if(!k.showRes)return '';
+  var files=(k.resources||[]).filter(function(r){return r.url}),note=(k.resNote||'').trim();
+  if(!files.length&&!note)return '';
+  return '<div class="sum" style="margin-top:34px"><h3>Recursos de la clase</h3>'+(note?'<p class="rnote">'+linkify(note)+'</p>':'')+
+   (files.length?'<div class="actions" style="margin:6px 0 0">'+files.map(function(r){return '<a class="btn b-out" href="'+esc(r.url)+'" download="'+esc(r.label||'recurso')+'" target="_blank" rel="noopener">⬇ '+esc(r.label||'Descargar archivo')+'</a>'}).join('')+'</div>':'')+'</div>';
+}
 function viewClase(id,n){
-  var c=findCourse(id),k=c&&c.classes.filter(function(x){return x.n===n})[0];
-  if(!c||!hasAccess(me(),id)){toast('No tienes acceso a este curso');go('#/cursos');return}
+  var u=me(),c=findCourse(id),k=c&&c.classes.filter(function(x){return x.n===n})[0];
+  if(!c||!hasAccess(u,id)){toast('No tienes acceso a este curso');go('#/cursos');return}
   if(!k||!k.published){go('#/cursos/'+id);return}
-  var nx=c.classes.filter(function(x){return x.n===n+1&&x.published})[0];
-  app.innerHTML=shell('<p class="crumb">'+esc(c.title)+'</p><h1 style="font-size:clamp(26px,3.6vw,48px);margin-bottom:22px">'+esc(k.title)+'</h1>'+
+  var nx=c.classes.filter(function(x){return x.n===n+1&&x.published})[0],ok=doneList(u.id,id).indexOf(n)>-1;
+  app.innerHTML=shell('<p class="crumb">'+esc(c.title)+'</p><h1 style="font-size:clamp(26px,3.6vw,48px);margin-bottom:18px">'+esc(k.title)+'</h1>'+progBox(u,c)+
    '<div class="player" id="pl" tabindex="0"><video playsinline preload="metadata"></video><div class="subs"><span></span></div><div class="noVid" hidden>El video de esta clase todavía no está disponible.</div>'+
    '<div class="menu" id="mCC"></div><div class="menu" id="mQ"></div>'+
    '<div class="ctrl"><input class="prog" type="range" min="0" max="1000" value="0" aria-label="Progreso">'+
@@ -340,9 +360,10 @@ function viewClase(id,n){
    '<button class="cb" data-c="q" aria-label="Calidad"><span class="qlab">—</span></button>'+
    '<button class="cb" data-c="fs" aria-label="Pantalla completa">'+I.fs+'</button></div></div></div>'+
    '<div class="actions">'+back('#/cursos/'+c.id,'Volver a la lista de clases')+
+   '<button class="btn '+(ok?'b-neon':'b-mor')+'" id="doneBtn" data-act="done" data-c="'+esc(c.id)+'" data-n="'+n+'">'+(ok?'✓ Unidad completada (quitar)':'Marcar unidad como completada')+'</button>'+
    (nx?'<a class="btn b-mor" href="#/cursos/'+c.id+'/'+nx.n+'">Clase siguiente →</a>':'<button class="btn b-mor" disabled title="La siguiente clase aún no está disponible">Clase siguiente →</button>')+
    '<a class="btn b-mag" target="_blank" rel="noopener" href="'+wa('Hola, tengo una duda sobre la '+k.title+' del '+c.title)+'">'+I.wa+'Tengo una duda</a></div>'+
-   '<div class="sum"><h3>Resumen de la clase</h3><p>'+esc(k.summary||'Pronto agregaremos el resumen de esta clase.')+'</p></div>');
+   '<div class="sum"><h3>Resumen de la clase</h3><p>'+esc(k.summary||'Pronto agregaremos el resumen de esta clase.')+'</p></div>'+resHtml(k));
   initPlayer($('#pl'),k);
 }
 
@@ -432,8 +453,15 @@ function initPlayer(root,L){
 }
 
 /* ================== Proyectos y contacto ================== */
-function viewProyectos(){
-  app.innerHTML=shell('<div class="sec-h">'+back('#/','Inicio')+'</div><div class="soon-box"><h2>Próximamente</h2><p>Aquí podrás ver los proyectos en los que Cosmos Agencia Creativa trabaja para ti.</p></div>',true);
+function untilTxt(uid,type,id){
+  var r=access().filter(function(x){return x.uid===uid&&x.type===type&&x.id===id})[0];
+  return r&&r.until?'Acceso hasta el '+r.until.split('-').reverse().join('/'):'';
+}
+function viewServicios(){
+  var u=me(),ss=services().filter(function(s){return hasService(u,s.id)});
+  app.innerHTML=shell('<div class="sec-h">'+back('#/','Inicio')+'<h1>Servicios de Cosmos</h1><a class="btn b-mor" href="catalogo.html#/servicios" style="margin-left:auto">Ver catálogo de servicios</a></div>'+
+   (ss.length?'<h3 style="margin-bottom:16px">Tus servicios activos</h3><div class="grid3">'+ss.map(function(s){return '<a class="course on" href="catalogo.html#/servicios/'+esc(s.id)+'"><span class="badge">Servicio activo</span><h3>'+esc(s.title)+'</h3><p>'+esc(s.summary)+'</p><small style="margin-top:12px">'+esc(untilTxt(u.id,'servicio',s.id))+'</small></a>'}).join('')+'</div>'
+   :'<div class="soon-box"><h2 style="font-size:clamp(24px,3vw,38px)">Aún no tienes servicios activos</h2><p>Aquí verás los servicios de Cosmos que tienes activos. Mientras tanto, conoce todo lo que podemos hacer por tu marca en nuestro catálogo.</p><p style="margin-top:20px"><a class="btn b-mag" href="catalogo.html#/servicios">Ver catálogo de servicios</a></p></div>'),true);
 }
 function viewContacto(){
   app.innerHTML=shell('<div class="sec-h">'+back('#/','Inicio')+'<h1>Contacto</h1></div><p class="lead">¿Tienes una duda o quieres iniciar un proyecto? Escríbenos, nos encanta conectar ideas.</p>'+
@@ -442,14 +470,42 @@ function viewContacto(){
 }
 
 /* ================== Administración ================== */
-var adm={course:'capcut'};
+var adm={course:'capcut',service:'identidad'};
 function viewAdmin(tab){
-  var t=['cursos','usuarios','pedidos'],names={cursos:'Cursos',usuarios:'Usuarios',pedidos:'Pedidos'};
-  var body=tab==='usuarios'?admUsers():tab==='pedidos'?admOrders():admCourses();
+  var t=['cursos','servicios','usuarios','pedidos'],names={cursos:'Cursos',servicios:'Servicios',usuarios:'Usuarios',pedidos:'Pedidos'};
+  var body=tab==='usuarios'?admUsers():tab==='pedidos'?admOrders():tab==='servicios'?admServicios():admCourses();
   app.innerHTML=shell('<div class="sec-h">'+back('#/','Inicio')+'<h1>Administración</h1></div><div class="admtabs">'+
    t.map(function(x){return '<a class="'+(x===tab?'on':'')+'" href="#/admin/'+x+'">'+names[x]+'</a>'}).join('')+'</div>'+
    '<div class="note"><b>Modo de pruebas:</b> por ahora los datos se guardan solo en este navegador. Cuando conectemos la base de datos, estarán disponibles para ti desde cualquier dispositivo.</div>'+body,true);
 }
+/* Módulo "Usuarios": quién tiene acceso a este curso/servicio y hasta cuándo */
+function accModule(type,id){
+  var us=users(),recs=access().filter(function(r){return r.type===type&&r.id===id&&us.some(function(u){return u.id===r.uid})});
+  return '<div class="panel"><h3 style="font-size:20px;margin-bottom:6px">Usuarios con acceso</h3>'+
+   '<p class="hint" style="margin-bottom:14px">Escribe el correo del usuario para darle acceso. Si eliges una fecha límite, al llegar ese día pierde el acceso automáticamente. Sin fecha, el acceso es permanente.</p>'+
+   '<div class="accrow"><input id="acc-mail" list="ulist" placeholder="correo@ejemplo.com"><input id="acc-date" type="date" min="'+today()+'" title="Fecha límite (opcional)"><button class="btn b-mag" data-act="addacc" data-type="'+type+'" data-id="'+esc(id)+'">Añadir</button></div>'+
+   '<datalist id="ulist">'+us.filter(function(u){return u.role!=='admin'}).map(function(u){return '<option value="'+esc(u.email)+'">'+esc(u.name)+'</option>'}).join('')+'</datalist><p class="msg" id="accMsg"></p>'+
+   (recs.length?'<div class="tbl"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Fecha límite</th><th>Estado</th><th></th></tr></thead><tbody>'+recs.map(function(r){
+     var u=us.filter(function(x){return x.id===r.uid})[0],ok=activeRec(r);
+     return '<tr><td>'+esc(u.name)+'</td><td>'+esc(u.email)+'</td><td><input type="date" data-accdate="'+r.uid+'|'+type+'|'+esc(id)+'" value="'+esc(r.until||'')+'"></td>'+
+      '<td><span class="pill'+(ok?'':' g')+'">'+(ok?'Activo':'Vencido')+'</span></td><td><button class="btn b-out" style="padding:8px 14px;font-size:13px" data-act="delacc" data-uid="'+r.uid+'" data-type="'+type+'" data-id="'+esc(id)+'">Quitar</button></td></tr>';
+   }).join('')+'</tbody></table></div>':'<p class="hint">Todavía no hay usuarios con acceso.</p>')+'</div>';
+}
+function imgRows(list,prefix,upAttr){
+  return [0,1,2,3].map(function(i){var im=list[i]||'';return '<div class="upl" style="margin:8px 0"><input data-'+prefix+'="img.'+i+'" value="'+(im.indexOf('data:')===0?'(imagen subida)':esc(im))+'" placeholder="Ruta de la imagen (img/archivo.jpg) o sube una"><input type="file" accept="image/*" data-'+upAttr+'="img.'+i+'"></div>'+(im?'<div class="prevs"><img class="pv" src="'+esc(im)+'" alt=""></div>':'')}).join('');
+}
+function admServicios(){
+  var ss=services(),s=ss.filter(function(x){return x.id===adm.service})[0]||ss[0];adm.service=s.id;
+  return '<div class="bar"><select data-act="selservice">'+ss.map(function(x){return '<option value="'+esc(x.id)+'"'+(x.id===s.id?' selected':'')+'>'+esc(x.title)+'</option>'}).join('')+'</select>'+
+   '<button class="btn b-mor" data-act="newservice">+ Nuevo servicio</button><button class="btn b-out" data-act="delservice">Eliminar servicio</button></div>'+
+   '<div class="panel"><h3 style="margin-bottom:6px;font-size:20px">Información del catálogo</h3><p class="hint" style="margin-bottom:14px">Esto es lo que ve el público en el catálogo de servicios.</p>'+
+   '<div class="g2"><div class="fld"><label>Título</label><input data-sf="title" value="'+esc(s.title)+'"></div><div class="fld"><label>Precio "desde" (opcional, ej: $50)</label><input data-sf="price" value="'+esc(s.price)+'"></div></div>'+
+   '<div class="fld"><label>Resumen corto</label><textarea rows="2" data-sf="summary">'+esc(s.summary)+'</textarea></div>'+
+   '<div class="fld"><label>Descripción completa</label><textarea rows="4" data-sf="description">'+esc(s.description)+'</textarea></div>'+
+   '<label>Qué incluye (hasta 6 puntos)</label>'+[0,1,2,3,4,5].map(function(i){return '<input style="margin:6px 0" data-sf="bullets.'+i+'" value="'+esc((s.bullets||[])[i]||'')+'">'}).join('')+
+   '<div style="margin-top:14px"><label>Imágenes (hasta 4)</label>'+imgRows(s.images||[],'sf','sup')+'</div></div>'+accModule('servicio',s.id);
+}
+
 function admCourses(){
   var cs=courses(),c=cs.filter(function(x){return x.id===adm.course})[0]||cs[0];adm.course=c.id;
   return '<div class="bar"><select data-act="selcourse">'+cs.map(function(x){return '<option value="'+esc(x.id)+'"'+(x.id===c.id?' selected':'')+'>'+esc(x.title)+'</option>'}).join('')+'</select>'+
@@ -457,45 +513,47 @@ function admCourses(){
    '<div class="panel"><div class="fld"><label>Título del curso</label><input data-f="c.title" value="'+esc(c.title)+'"></div>'+
    '<div class="fld"><label>Resumen</label><textarea data-f="c.summary" rows="3">'+esc(c.summary)+'</textarea></div>'+
    '<label><input type="checkbox" data-f="c.available"'+(c.available?' checked':'')+'> Disponible (si no, se muestra como "Próximamente")</label></div>'+
-   '<div class="panel"><h3 style="margin-bottom:6px;font-size:20px">Información del catálogo</h3><p class="hint" style="margin-bottom:14px">Esto es lo que ve el público en la página de cursos.</p>'+
-   '<div class="g2"><div class="fld"><label>Precio (ej: $25)</label><input data-f="c.price" value="'+esc(c.price)+'" placeholder="Si lo dejas vacío dice: Consultar precio"></div>'+
+   '<div class="panel"><h3 style="margin-bottom:6px;font-size:20px">Información del catálogo</h3><p class="hint" style="margin-bottom:14px">Esto es lo que ve el público en el catálogo de cursos.</p>'+
+   '<div class="g2"><div class="fld"><label>Precio (ej: $10)</label><input data-f="c.price" value="'+esc(c.price)+'"></div>'+
    '<div class="fld"><label>Profesor: nombre</label><input data-f="c.teacher.name" value="'+esc(c.teacher.name)+'"></div></div>'+
    '<div class="g2"><div class="fld"><label>Profesor: a qué se dedica</label><input data-f="c.teacher.role" value="'+esc(c.teacher.role)+'" placeholder="Ej: CEO de Cosmos, Diseñador gráfico, Editor de video"></div>'+
    '<div class="fld"><label>Profesor: foto (ruta o subir imagen)</label><div class="upl"><input data-f="c.teacher.photo" value="'+(c.teacher.photo&&c.teacher.photo.indexOf('data:')===0?'(foto subida)':esc(c.teacher.photo))+'" placeholder="img/profesor-miguelon.jpg"><input type="file" accept="image/*" data-up="teacher"></div></div></div>'+
    '<div class="prevs" style="margin-bottom:14px">'+avatar(c.teacher,54)+'<span class="hint">Así se verá la foto del profesor.</span></div>'+
-   '<div class="fld"><label>Descripción completa del curso</label><textarea rows="4" data-f="c.description">'+esc(c.description)+'</textarea></div>'+
-   '<label>Imágenes del curso (hasta 4)</label>'+
-   [0,1,2,3].map(function(i){var im=c.images[i]||'';return '<div class="upl" style="margin:8px 0"><input data-f="c.img.'+i+'" value="'+(im.indexOf('data:')===0?'(imagen subida)':esc(im))+'" placeholder="Ruta de la imagen (img/curso-capcut-'+(i+1)+'.jpg) o sube una"><input type="file" accept="image/*" data-up="img.'+i+'"></div>'+(im?'<div class="prevs"><img class="pv" src="'+esc(im)+'" alt=""></div>':'')}).join('')+
-   '</div>'+
+   '<div class="fld"><label>Descripción general del curso</label><textarea rows="4" data-f="c.description">'+esc(c.description)+'</textarea></div>'+
+   '<label>Imágenes del curso (hasta 4)</label>'+imgRows(c.images||[],'f','up').replace(/data-f="img\./g,'data-f="c.img.')+'</div>'+
+   accModule('curso',c.id)+
    '<h3 style="margin:24px 0 14px">Clases ('+c.classes.length+')</h3>'+
    c.classes.map(function(k){
      var rows=[0,1,2].map(function(i){var s=k.sources[i]||{label:'',url:''};
        return '<div class="srcrow"><input placeholder="Calidad (720p)" data-f="k.'+k.n+'.src.'+i+'.label" value="'+esc(s.label)+'"><input placeholder="Ruta o enlace del video (video/clase1-720.mp4)" data-f="k.'+k.n+'.src.'+i+'.url" value="'+esc(s.url)+'"></div>'}).join('');
+     var rl=k.resources||[],rr=[];for(var i=0;i<Math.max(2,rl.length+1);i++){var r=rl[i]||{label:'',url:''},emb=(r.url||'').indexOf('data:')===0;
+       rr.push('<div class="upl" style="grid-template-columns:150px 1fr auto;margin:6px 0"><input placeholder="Nombre del archivo" data-f="k.'+k.n+'.res.'+i+'.label" value="'+esc(r.label)+'"><input placeholder="Ruta o enlace (recursos/guia.pdf)" data-f="k.'+k.n+'.res.'+i+'.url" value="'+(emb?'(archivo subido)':esc(r.url))+'"'+(emb?' readonly':'')+'><input type="file" data-resup="'+k.n+'.'+i+'"></div>')}
      return '<details class="cls"><summary><span class="num" style="width:32px;height:32px">'+k.n+'</span>'+esc(k.title)+'<span class="pill'+(k.published?'':' g')+'" style="margin-left:auto">'+(k.published?'Visible':'Oculta')+'</span></summary><div class="in">'+
       '<div class="fld"><label>Título de la clase</label><input data-f="k.'+k.n+'.title" value="'+esc(k.title)+'"></div>'+
       '<div class="fld"><label>Resumen de la clase</label><textarea rows="3" data-f="k.'+k.n+'.summary">'+esc(k.summary)+'</textarea></div>'+
       '<label><input type="checkbox" data-f="k.'+k.n+'.published"'+(k.published?' checked':'')+'> Visible para los alumnos (se puede hacer click)</label>'+
-      '<div><label>Video (puedes poner varias calidades)</label>'+rows+'<p class="hint">Escribe la ruta del archivo dentro de la web (por ejemplo <b>video/clase2-720.mp4</b>) o un enlace directo a un .mp4.</p></div>'+
+      '<div><label>Video (puedes poner varias calidades)</label>'+rows+'<p class="hint">Escribe la ruta del archivo dentro de la web (por ejemplo <b>video/clase4-720.mp4</b>) o un enlace directo a un .mp4.</p></div>'+
       '<div><label>Subtítulos (.vtt o .srt)</label><input type="file" accept=".vtt,.srt" data-file="'+k.n+'"><p class="hint" id="sn'+k.n+'">'+(k.subs?'Subtítulos cargados: '+esc(k.subsName)+' ':'Sin subtítulos. ')+'</p>'+(k.subs?'<button class="btn b-out" data-act="rmsubs" data-n="'+k.n+'" style="padding:8px 16px;font-size:13px">Quitar subtítulos</button>':'')+'</div>'+
+      '<div style="border-top:2px solid #eadff7;padding-top:12px"><label><input type="checkbox" data-f="k.'+k.n+'.showRes"'+(k.showRes?' checked':'')+'> Mostrar sección de recursos en esta clase (desmárcala si la clase no tiene recursos)</label>'+
+      '<div class="fld" style="margin-top:10px"><label>Texto de los recursos (puedes escribir libremente y pegar enlaces)</label><textarea rows="3" data-f="k.'+k.n+'.resNote">'+esc(k.resNote||'')+'</textarea></div>'+
+      '<label>Archivos descargables</label>'+rr.join('')+'<p class="hint">Para que todos los alumnos puedan descargarlos, copia el archivo a la carpeta <b>recursos/</b> del repositorio y escribe su ruta. Si lo subes con el botón de archivo (máx. 1,5 MB) solo se verá en este navegador hasta que conectemos la base de datos.</p></div>'+
       '<div><button class="btn b-out" data-act="delclass" data-n="'+k.n+'" style="padding:8px 16px;font-size:13px">Eliminar esta clase</button></div></div></details>';
    }).join('')+'<button class="btn b-mag" data-act="addclass">+ Añadir clase</button>';
 }
 function admUsers(){
-  var me_=me(),cs=courses();
+  var me_=me();
   var form=adm.showNew?'<div class="panel"><h3 style="font-size:20px;margin-bottom:14px">Crear usuario</h3><div class="g2">'+
-    '<div class="fld"><label>Nombre y apellido</label><input id="nu-name"></div><div class="fld"><label>Correo o usuario</label><input id="nu-mail"></div>'+
+    '<div class="fld"><label>Nombre y apellido</label><input id="nu-name"></div><div class="fld"><label>Correo electrónico (obligatorio, único)</label><input id="nu-mail" type="email"></div>'+
     '<div class="fld"><label>Contraseña (mínimo 6 caracteres)</label><input id="nu-pass"></div>'+
     '<div class="fld"><label>Rol</label><select id="nu-role"><option value="user">Usuario</option><option value="admin">Admin</option></select></div></div>'+
-    '<label>Cursos a los que tendrá acceso</label><div style="margin:8px 0 14px">'+cs.map(function(c){return '<label class="chip"><input type="checkbox" data-nuc="'+esc(c.id)+'"> '+esc(c.title)+'</label>'}).join('')+'</div>'+
+    '<p class="hint" style="margin-bottom:10px">Los cursos y servicios se asignan desde la sección de cada curso o servicio, escribiendo el correo del usuario.</p>'+
     '<p class="msg" id="nuMsg"></p><button class="btn b-mor" data-act="createuser">Crear usuario</button> <button class="btn b-out" data-act="cancelnew">Cancelar</button></div>':'';
   return '<div class="bar"><button class="btn b-mag" data-act="newuser">+ Crear usuario</button></div>'+form+
-   '<p class="hint" style="margin-bottom:10px">Marca los cursos que cada usuario puede ver en su portal (cuando verifiques su pago). Los admin ven todos los cursos.</p>'+
-   '<div class="panel tbl"><table><thead><tr><th>Nombre</th><th>Correo / usuario</th><th>Rol</th><th>Acceso a cursos</th><th>Registro</th><th>Acciones</th></tr></thead><tbody>'+
+   '<div class="panel tbl"><table><thead><tr><th>Nombre</th><th>Correo / usuario</th><th>Rol</th><th>Registro</th><th>Acciones</th></tr></thead><tbody>'+
    users().map(function(u){
-     var acc=u.role==='admin'?'<b>Todos</b>':cs.map(function(c){return '<label class="chip"><input type="checkbox" data-uc="'+u.id+'|'+esc(c.id)+'"'+(u.courses.indexOf(c.id)>-1?' checked':'')+'> '+esc(c.title)+'</label>'}).join('');
      return '<tr><td><input data-u="'+u.id+'.name" value="'+esc(u.name)+'"></td><td>'+esc(u.email)+'</td>'+
       '<td><select data-u="'+u.id+'.role"'+(u.id===me_.id?' disabled':'')+'><option value="user"'+(u.role==='user'?' selected':'')+'>Usuario</option><option value="admin"'+(u.role==='admin'?' selected':'')+'>Admin</option></select></td>'+
-      '<td style="min-width:230px">'+acc+'</td><td>'+new Date(u.created).toLocaleDateString('es')+'</td><td style="white-space:nowrap"><button class="btn b-out" style="padding:8px 14px;font-size:13px" data-act="pass" data-id="'+u.id+'">Nueva contraseña</button> '+
+      '<td>'+new Date(u.created).toLocaleDateString('es')+'</td><td style="white-space:nowrap"><button class="btn b-out" style="padding:8px 14px;font-size:13px" data-act="pass" data-id="'+u.id+'">Nueva contraseña</button> '+
       (u.id===me_.id?'':'<button class="btn b-mag" style="padding:8px 14px;font-size:13px" data-act="deluser" data-id="'+u.id+'">Eliminar</button>')+'</td></tr>';
    }).join('')+'</tbody></table></div>';
 }
@@ -520,7 +578,14 @@ function setPath(c,path,val){
     c[p[1]]=val;return}
   var k=c.classes.filter(function(x){return x.n===+p[1]})[0];if(!k)return;
   if(p[2]==='src'){while(k.sources.length<=+p[3])k.sources.push({label:'',url:''});k.sources[+p[3]][p[4]]=val}
+  else if(p[2]==='res'){k.resources=k.resources||[];while(k.resources.length<=+p[3])k.resources.push({label:'',url:''});k.resources[+p[3]][p[4]]=val}
   else k[p[2]]=val;
+}
+function setServ(s,path,val){
+  var p=path.split('.');
+  if(p[0]==='bullets'){s.bullets=s.bullets||[];while(s.bullets.length<=+p[1])s.bullets.push('');s.bullets[+p[1]]=val}
+  else if(p[0]==='img'){s.images=s.images||[];while(s.images.length<=+p[1])s.images.push('');s.images[+p[1]]=val}
+  else s[p[0]]=val;
 }
 
 /* ================== Utilidades de admin ================== */
@@ -537,11 +602,11 @@ function readImg(file,max,square,cb){
 }
 async function createUser(){
   var msg=$('#nuMsg'),name=$('#nu-name').value.trim(),mail=$('#nu-mail').value.trim().toLowerCase(),pass=$('#nu-pass').value,role=$('#nu-role').value,l=users();
-  if(name.length<2||!mail||!pass){msg.textContent='Completa nombre, correo o usuario y contraseña.';return}
+  if(name.length<2||!mail||!pass){msg.textContent='Completa nombre, correo y contraseña.';return}
+  if(!/^\S+@\S+\.\S+$/.test(mail)){msg.textContent='Escribe un correo válido.';return}
   if(pass.length<6){msg.textContent='La contraseña debe tener al menos 6 caracteres.';return}
-  if(l.some(function(u){return u.email===mail})){msg.textContent='Ese correo o usuario ya existe.';return}
-  var cc=$$('[data-nuc]').filter(function(x){return x.checked}).map(function(x){return x.dataset.nuc});
-  l.push({id:'u_'+Date.now(),name:name,email:mail,role:role,hash:await sha(pass),created:Date.now(),courses:cc});
+  if(l.some(function(u){return u.email===mail})){msg.textContent='Ya existe un perfil con ese correo.';return}
+  l.push({id:'u_'+Date.now(),name:name,email:mail,role:role,hash:await sha(pass),created:Date.now()});
   DB.set(K.users,l);adm.showNew=false;toast('Usuario creado');route();
 }
 
@@ -562,9 +627,21 @@ document.addEventListener('change',function(e){
       k.subs=s;k.subsName=f.name;saveCourses(cs);route();
     };
     rd.readAsText(f);
-  }else if(t.dataset.uc){
-    var pp=t.dataset.uc.split('|'),l2=users(),u2=l2.filter(function(x){return x.id===pp[0]})[0];
-    u2.courses=u2.courses.filter(function(x){return x!==pp[1]});if(t.checked)u2.courses.push(pp[1]);DB.set(K.users,l2);toast(t.checked?'Acceso concedido':'Acceso quitado');
+  }else if(t.dataset.accdate){
+    var q=t.dataset.accdate.split('|'),a=access();a.forEach(function(r){if(r.uid===q[0]&&r.type===q[1]&&r.id===q[2])r.until=t.value});DB.set(K.acc,a);toast('Fecha guardada');route();
+  }else if(t.dataset.sf){
+    var sv=services(),s1=sv.filter(function(x){return x.id===adm.service})[0];setServ(s1,t.dataset.sf,t.value);DB.set(K.serv,sv);toast('Guardado');
+  }else if(t.dataset.sup){
+    var f4=t.files[0];if(!f4)return;
+    readImg(f4,1200,false,function(url){var sv2=services(),s2=sv2.filter(function(x){return x.id===adm.service})[0];setServ(s2,t.dataset.sup,url);DB.set(K.serv,sv2);route()});
+  }else if(t.dataset.resup){
+    var q2=t.dataset.resup.split('.'),f3=t.files[0];if(!f3)return;
+    if(f3.size>1500000){toast('Archivo muy grande. Cópialo a la carpeta recursos/ del repositorio y escribe su ruta.');return}
+    var rd2=new FileReader();rd2.onload=function(){
+      var cs=courses(),c=cs.filter(function(x){return x.id===adm.course})[0],k=c.classes.filter(function(x){return x.n===+q2[0]})[0];
+      k.resources=k.resources||[];while(k.resources.length<=+q2[1])k.resources.push({label:'',url:''});
+      k.resources[+q2[1]]={label:f3.name,url:rd2.result};saveCourses(cs);route();
+    };rd2.readAsDataURL(f3);
   }else if(t.dataset.up){
     var f2=t.files[0];if(!f2)return;var isT=t.dataset.up==='teacher';
     readImg(f2,isT?320:1200,isT,function(url){
@@ -577,6 +654,7 @@ document.addEventListener('change',function(e){
   }else if(t.dataset.o){
     var o=DB.get(K.orders,[]);o.forEach(function(r){if(String(r.id)===t.dataset.o)r.estado=t.value});DB.set(K.orders,o);toast('Guardado');
   }else if(t.dataset.act==='selcourse'){adm.course=t.value;route()}
+  else if(t.dataset.act==='selservice'){adm.service=t.value;route()}
 });
 document.addEventListener('click',function(e){
   var b=e.target.closest('[data-act]');if(!b||b.tagName==='SELECT')return;var a=b.dataset.act;
@@ -590,6 +668,22 @@ document.addEventListener('click',function(e){
   else if(a==='rmsubs'){var cs5=courses(),c5=cs5.filter(function(x){return x.id===adm.course})[0],k5=c5.classes.filter(function(x){return x.n===+b.dataset.n})[0];k5.subs='';k5.subsName='';saveCourses(cs5);route()}
   else if(a==='pass'){var np=prompt('Nueva contraseña (mínimo 6 caracteres):');if(np&&np.length>=6){var l=users();sha(np).then(function(h){l.filter(function(x){return x.id===b.dataset.id})[0].hash=h;DB.set(K.users,l);toast('Contraseña actualizada')})}else if(np)toast('Mínimo 6 caracteres')}
   else if(a==='deluser'){if(confirm('¿Eliminar este usuario?')){DB.set(K.users,users().filter(function(x){return x.id!==b.dataset.id}));route()}}
+  else if(a==='done'){
+    var u0=me(),on=toggleDone(u0.id,b.dataset.c,+b.dataset.n),cc=findCourse(b.dataset.c),pp=pct(u0.id,cc);
+    b.className='btn '+(on?'b-neon':'b-mor');b.textContent=on?'✓ Unidad completada (quitar)':'Marcar unidad como completada';
+    $('#pctTxt').textContent='Tu avance: '+pp+'%';$('#pctBar').style.width=pp+'%';toast(on?'¡Unidad completada! Llevas '+pp+'%':'Unidad desmarcada');
+  }
+  else if(a==='addacc'){
+    var mail=($('#acc-mail').value||'').trim().toLowerCase(),dt=$('#acc-date').value,um=$('#accMsg'),tu=users().filter(function(x){return x.email===mail})[0];
+    if(!mail){um.textContent='Escribe el correo del usuario.';return}
+    if(!tu){um.textContent='No existe un usuario con ese correo. Debe registrarse primero (o créalo en Usuarios).';return}
+    var ac=access(),ex=ac.filter(function(r){return r.uid===tu.id&&r.type===b.dataset.type&&r.id===b.dataset.id})[0];
+    if(ex)ex.until=dt;else ac.push({uid:tu.id,type:b.dataset.type,id:b.dataset.id,until:dt});
+    DB.set(K.acc,ac);toast('Acceso para '+tu.name);route();
+  }
+  else if(a==='delacc'){DB.set(K.acc,access().filter(function(r){return !(r.uid===b.dataset.uid&&r.type===b.dataset.type&&r.id===b.dataset.id)}));toast('Acceso quitado');route()}
+  else if(a==='newservice'){var nn=prompt('Nombre del nuevo servicio:');if(nn){var sv3=services(),id3='s'+Date.now();sv3.push({id:id3,title:nn,summary:'',description:'',bullets:[],images:[],price:''});DB.set(K.serv,sv3);adm.service=id3;route()}}
+  else if(a==='delservice'){if(confirm('¿Eliminar este servicio?')){var sv4=services().filter(function(x){return x.id!==adm.service});DB.set(K.serv,sv4);adm.service=sv4[0]&&sv4[0].id;route()}}
   else if(a==='newuser'){adm.showNew=true;route()}
   else if(a==='cancelnew'){adm.showNew=false;route()}
   else if(a==='createuser'){createUser()}

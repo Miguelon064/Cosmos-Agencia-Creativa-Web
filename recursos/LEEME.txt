@@ -1,0 +1,2 @@
+Aquí van los archivos descargables de las clases (PDF, plantillas, etc.).
+Escribe su ruta en el panel de administración, por ejemplo: recursos/guia.pdf

@@ -148,6 +148,10 @@ body{background:#fff;font-family:'Montserrat',sans-serif;font-weight:500;color:v
 .course p{font-size:clamp(14px,1.1vw,17px);line-height:1.55;margin-bottom:22px}
 .course .btn{margin-top:auto;align-self:flex-start}
 .btn-neon{background:var(--neon);color:var(--morado)}
+.btn-big{margin-top:48px;background:var(--magenta);color:#fff;font-weight:900;text-transform:uppercase;font-size:clamp(16px,1.6vw,22px);padding:22px clamp(28px,4vw,60px);box-shadow:0 10px 0 var(--morado);transition:transform .2s,box-shadow .2s}
+.btn-big:hover{transform:translateY(4px) scale(1.02);box-shadow:0 5px 0 var(--morado)}
+.svc-all{display:inline-flex;align-items:center;gap:10px;margin-top:26px;background:var(--magenta);color:#fff;text-decoration:none;font-weight:700;font-size:clamp(15px,1.3vw,19px);padding:16px 34px;border-radius:999px;transition:transform .2s}
+.svc-all:hover{transform:translateX(8px)}
 .btn-more{background:var(--c);color:#fff}
 .course .cprice{margin-top:auto;font-weight:900;font-size:clamp(20px,1.8vw,26px);color:var(--neon);margin-bottom:14px}
 .course .cprice+.btn{margin-top:0}
@@ -257,6 +261,7 @@ body{background:#fff;font-family:'Montserrat',sans-serif;font-weight:500;color:v
         <button class="svc-item" data-i="1"><small>02</small>Gestión de redes y creación de contenido</button>
         <button class="svc-item" data-i="2"><small>03</small>Diseño de páginas web</button>
         <button class="svc-item" data-i="3"><small>04</small>Cursos y capacitaciones</button>
+        <a class="svc-all" href="catalogo.html#/servicios">Ver todos nuestros servicios <span aria-hidden="true">→</span></a>
       </div>
       <div class="svc-stage" id="svcStage">
         <div class="slider">
@@ -309,24 +314,24 @@ body{background:#fff;font-family:'Montserrat',sans-serif;font-weight:500;color:v
           <h3>Curso de CapCut</h3>
           <p>Aprende a editar videos para tus redes desde cero, de forma fácil y creativa.</p>
           <p class="cprice" data-price="capcut"></p>
-          <a class="btn btn-neon" href="cursos.html#/capcut">Quiero inscribirme</a>
+          <a class="btn btn-neon" href="catalogo.html#/cursos/capcut">Quiero inscribirme</a>
         </div>
         <div class="course soon" style="--c:var(--azul)">
           <img class="cimg" src="img/estrella-azul.png" alt="">
           <span class="badge">Próximamente</span>
           <h3>Curso de Creatividad</h3>
           <p>Aprende a generar ideas originales y convertirlas en contenido que destaque.</p>
-          <a class="btn btn-more" href="cursos.html#/creatividad">Ver más</a>
+          <a class="btn btn-more" href="catalogo.html#/cursos/creatividad">Ver más</a>
         </div>
         <div class="course soon" style="--c:var(--magenta)">
           <img class="cimg" src="img/estrella-magenta.png" alt="">
           <span class="badge">Próximamente</span>
           <h3>Curso de Diseño gráfico</h3>
           <p>Domina las bases del diseño para crear piezas que llamen la atención.</p>
-          <a class="btn btn-more" href="cursos.html#/diseno">Ver más</a>
+          <a class="btn btn-more" href="catalogo.html#/cursos/diseno">Ver más</a>
         </div>
       </div>
-      <a class="btn btn-signup" href="cursos.html" style="margin-top:40px">Ver catálogo completo</a>
+      <a class="btn btn-big" href="catalogo.html#/cursos">Ver catálogo completo de cursos <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
