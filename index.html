@@ -148,6 +148,9 @@ body{background:#fff;font-family:'Montserrat',sans-serif;font-weight:500;color:v
 .course p{font-size:clamp(14px,1.1vw,17px);line-height:1.55;margin-bottom:22px}
 .course .btn{margin-top:auto;align-self:flex-start}
 .btn-neon{background:var(--neon);color:var(--morado)}
+.btn-more{background:var(--c);color:#fff}
+.course .cprice{margin-top:auto;font-weight:900;font-size:clamp(20px,1.8vw,26px);color:var(--neon);margin-bottom:14px}
+.course .cprice+.btn{margin-top:0}
 .cimg{position:absolute;right:22px;top:16px;width:50px}
 
 
@@ -305,21 +308,25 @@ body{background:#fff;font-family:'Montserrat',sans-serif;font-weight:500;color:v
           <span class="badge">Disponible</span>
           <h3>Curso de CapCut</h3>
           <p>Aprende a editar videos para tus redes desde cero, de forma fácil y creativa.</p>
-          <a class="btn btn-neon" href="#">Quiero inscribirme</a>
+          <p class="cprice" data-price="capcut"></p>
+          <a class="btn btn-neon" href="cursos.html#/capcut">Quiero inscribirme</a>
         </div>
         <div class="course soon" style="--c:var(--azul)">
           <img class="cimg" src="img/estrella-azul.png" alt="">
           <span class="badge">Próximamente</span>
           <h3>Curso de Creatividad</h3>
           <p>Aprende a generar ideas originales y convertirlas en contenido que destaque.</p>
+          <a class="btn btn-more" href="cursos.html#/creatividad">Ver más</a>
         </div>
         <div class="course soon" style="--c:var(--magenta)">
           <img class="cimg" src="img/estrella-magenta.png" alt="">
           <span class="badge">Próximamente</span>
           <h3>Curso de Diseño gráfico</h3>
           <p>Domina las bases del diseño para crear piezas que llamen la atención.</p>
+          <a class="btn btn-more" href="cursos.html#/diseno">Ver más</a>
         </div>
       </div>
+      <a class="btn btn-signup" href="cursos.html" style="margin-top:40px">Ver catálogo completo</a>
     </div>
   </section>
 
@@ -373,9 +380,11 @@ body{background:#fff;font-family:'Montserrat',sans-serif;font-weight:500;color:v
   </section>
 </div>
 
+<script src="datos.js"></script>
 <script>
 var PAISES="Afganistán,Albania,Alemania,Andorra,Angola,Antigua y Barbuda,Arabia Saudita,Argelia,Argentina,Armenia,Australia,Austria,Azerbaiyán,Bahamas,Bangladés,Barbados,Baréin,Bélgica,Belice,Benín,Bielorrusia,Birmania,Bolivia,Bosnia y Herzegovina,Botsuana,Brasil,Brunéi,Bulgaria,Burkina Faso,Burundi,Bután,Cabo Verde,Camboya,Camerún,Canadá,Catar,Chad,Chile,China,Chipre,Colombia,Comoras,Corea del Norte,Corea del Sur,Costa de Marfil,Costa Rica,Croacia,Cuba,Dinamarca,Dominica,Ecuador,Egipto,El Salvador,Emiratos Árabes Unidos,Eritrea,Eslovaquia,Eslovenia,España,Estados Unidos,Estonia,Esuatini,Etiopía,Filipinas,Finlandia,Fiyi,Francia,Gabón,Gambia,Georgia,Ghana,Granada,Grecia,Guatemala,Guinea,Guinea Ecuatorial,Guinea-Bisáu,Guyana,Haití,Honduras,Hungría,India,Indonesia,Irak,Irán,Irlanda,Islandia,Islas Marshall,Islas Salomón,Israel,Italia,Jamaica,Japón,Jordania,Kazajistán,Kenia,Kirguistán,Kiribati,Kuwait,Laos,Lesoto,Letonia,Líbano,Liberia,Libia,Liechtenstein,Lituania,Luxemburgo,Macedonia del Norte,Madagascar,Malasia,Malaui,Maldivas,Malí,Malta,Marruecos,Mauricio,Mauritania,México,Micronesia,Moldavia,Mónaco,Mongolia,Montenegro,Mozambique,Namibia,Nauru,Nepal,Nicaragua,Níger,Nigeria,Noruega,Nueva Zelanda,Omán,Países Bajos,Pakistán,Palaos,Palestina,Panamá,Papúa Nueva Guinea,Paraguay,Perú,Polonia,Portugal,Puerto Rico,Reino Unido,República Centroafricana,República Checa,República del Congo,República Democrática del Congo,República Dominicana,Ruanda,Rumanía,Rusia,Samoa,San Cristóbal y Nieves,San Marino,San Vicente y las Granadinas,Santa Lucía,Santo Tomé y Príncipe,Senegal,Serbia,Seychelles,Sierra Leona,Singapur,Siria,Somalia,Sri Lanka,Sudáfrica,Sudán,Sudán del Sur,Suecia,Suiza,Surinam,Tailandia,Tanzania,Tayikistán,Timor Oriental,Togo,Tonga,Trinidad y Tobago,Túnez,Turkmenistán,Turquía,Tuvalu,Ucrania,Uganda,Uruguay,Uzbekistán,Vanuatu,Vaticano,Venezuela,Vietnam,Yemen,Yibuti,Zambia,Zimbabue".split(",");
 (function(){
+  try{[].forEach.call(document.querySelectorAll('[data-price]'),function(e){var c=courses().filter(function(x){return x.id===e.dataset.price})[0];if(c)e.textContent=price(c)})}catch(x){}
   var sel=document.getElementById('f-pais');
   sel.innerHTML='<option value="">Selecciona tu país</option>'+
     PAISES.map(function(p){return '<option>'+p+'</option>'}).join('');

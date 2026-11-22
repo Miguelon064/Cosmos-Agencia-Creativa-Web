@@ -156,11 +156,19 @@ table{width:100%;border-collapse:collapse}
 th,td{text-align:left;padding:12px 10px;border-bottom:2px solid #eadff7;vertical-align:middle;font-size:14px}
 th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--magenta)}
 td input,td select{padding:8px 12px;border-width:2px;border-radius:12px}
+td input{min-width:170px}td select{min-width:120px}
 .tbl{overflow-x:auto}
 .order{border:2.5px solid var(--morado);border-radius:20px;padding:18px 20px;margin-bottom:14px}
 .order dl{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;font-size:14px;margin:12px 0}.order dt{font-weight:900;color:var(--magenta)}
 .order dd{line-height:1.5;word-break:break-word}
 .note{background:#f6efff;border-radius:16px;padding:14px 18px;font-size:13px;line-height:1.6;margin-bottom:22px}
+.av{position:relative;flex:none;width:var(--s,56px);height:var(--s,56px);border-radius:50%;background:var(--magenta);color:#fff;display:grid;place-items:center;overflow:hidden;font-weight:900;font-size:calc(var(--s,56px)*.42)}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.chip{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--morado);border-radius:999px;padding:4px 12px;margin:2px 4px 2px 0;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer}
+.chip input{width:auto}
+.upl{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.upl input[type=file]{border:0;padding:0;font-size:12px;width:auto}
+.prevs{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.prevs img.pv{height:54px;border-radius:10px;border:2px solid var(--morado)}
 #toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(30px);background:var(--morado);color:var(--neon);font-weight:700;padding:12px 24px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s;z-index:99}
 #toast.show{opacity:1;transform:translateX(-50%)}
 
@@ -176,25 +184,14 @@ td input,td select{padding:8px 12px;border-width:2px;border-radius:12px}
 <div id="app"></div>
 <div id="toast"></div>
 
+<script src="datos.js"></script>
 <script>
 /* ================== Utilidades y "base de datos" local ==================
    Por ahora todo se guarda en el navegador (localStorage). Cuando conectemos
    Supabase, solo hay que cambiar este bloque (DB) y las funciones de acceso. */
 var $=function(s,r){return (r||document).querySelector(s)};
 var $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
-function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-var DB={
-  get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
-  set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('No se pudo guardar (almacenamiento lleno)');return false}}
-};
 function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove('show')},2200)}
-async function sha(t){
-  var s='cosmos::'+t;
-  if(window.crypto&&crypto.subtle){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [].map.call(new Uint8Array(b),function(x){return x.toString(16).padStart(2,'0')}).join('')}
-  var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return 'f'+h;
-}
-var WA='584220433936',IG='https://www.instagram.com/cosmos_agenciacreativa/';
-function wa(txt){return 'https://wa.me/'+WA+(txt?'?text='+encodeURIComponent(txt):'')}
 
 var I={
  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>',
@@ -210,38 +207,7 @@ var I={
 };
 
 /* ================== Datos ================== */
-var K={users:'cosmos_users',ses:'cosmos_session',courses:'cosmos_cursos',orders:'cosmos_solicitudes',subs:'cosmos_subprefs',q:'cosmos_calidad'};
-var TITLES=['Conociendo CapCut en tu teléfono','La línea de tiempo y cortes básicos','Formato y exportación','Audio básico','Texto y títulos','Subtítulos automáticos','Transiciones y animaciones','Velocidad y ritmo','Efectos y filtros','Corrección de color básica','Capas y pistas superpuestas','Fotogramas clave (keyframes)','Herramientas de IA y fondo','Plantillas y sincronización con música','Proyecto final integrador'];
-var SUM={1:'En esta primera clase conoceremos CapCut y daremos los primeros pasos para empezar a editar tus videos.',2:'Aprende a usar la línea de tiempo y a hacer los cortes básicos para armar tu video.'};
-function vids(n){return [{label:'1080p',url:'video/clase'+n+'-1080.mp4'},{label:'720p',url:'video/clase'+n+'-720.mp4'},{label:'480p',url:'video/clase'+n+'-480.mp4'}]}
-var LIVE=[1,2];
-function defaultCourses(){
-  var cl=[];for(var i=1;i<=15;i++)cl.push({n:i,title:'Clase '+i+': '+TITLES[i-1],summary:SUM[i]||'',published:LIVE.indexOf(i)>-1,sources:LIVE.indexOf(i)>-1?vids(i):[],subs:'',subsName:''});
-  return [
-    {id:'capcut',title:'Curso de CapCut',summary:'Aprende a editar videos para tus redes desde cero, de forma fácil y creativa. Un curso práctico paso a paso con el equipo de Cosmos.',available:true,classes:cl},
-    {id:'creatividad',title:'Curso de Creatividad',summary:'Aprende a generar ideas originales y convertirlas en contenido que destaque.',available:false,classes:[]},
-    {id:'diseno',title:'Curso de Diseño gráfico',summary:'Domina las bases del diseño para crear piezas que llamen la atención.',available:false,classes:[]}
-  ];
-}
-function users(){return DB.get(K.users,[])}
-function courses(){
-  var c=DB.get(K.courses,null);
-  if(!c){c=defaultCourses();DB.set(K.courses,c);return c}
-  /* Actualiza datos guardados antes: solo rellena lo que todavía está "por defecto" y respeta lo que editaste */
-  var cp=c.filter(function(x){return x.id==='capcut'})[0],ch=false;
-  if(cp)cp.classes.forEach(function(k){
-    var d=defaultCourses()[0].classes[k.n-1];if(!d)return;
-    if(k.title==='Clase '+k.n){k.title=d.title;ch=true}
-    if(!k.summary&&d.summary){k.summary=d.summary;ch=true}
-    var known=k.sources.every(function(s){return /^video\/clase\d+-(1080|720|480)\.mp4$/.test(s.url)});
-    if(d.published&&!k.published&&!k.sources.length){k.published=true;k.sources=d.sources;ch=true}
-    else if(d.sources.length&&known&&k.sources.length<3){k.sources=d.sources;ch=true}
-  });
-  if(ch)DB.set(K.courses,c);
-  return c;
-}
 function saveCourses(c){if(DB.set(K.courses,c))toast('Guardado')}
-function me(){var id=DB.get(K.ses,null);return users().filter(function(u){return u.id===id})[0]||null}
 async function seed(){
   var u=users();
   if(!u.some(function(x){return x.role==='admin'})){
@@ -328,7 +294,7 @@ function viewHome(){
   var b=slides.map(function(s,i){return '<div class="bs'+(i?'':' on')+'" style="background:'+s.bg+';color:'+s.t+'"><h2 style="color:'+s.c+'">'+s.h+'</h2><p>'+s.p+'</p><img src="img/'+s.i+'.png" alt=""></div>'}).join('');
   app.innerHTML=shell('<section class="banner">'+b+'<div class="bdots">'+slides.map(function(_,i){return '<i class="'+(i?'':'on')+'" data-act="bn" data-i="'+i+'"></i>'}).join('')+'</div></section>'+
    '<h2 class="h-mod">Tus módulos</h2><div class="mods">'+
-   '<a class="mod" href="#/cursos" style="--c:var(--magenta)"><img src="img/estrella-magenta.png" alt=""><h3>Cursos</h3><p>Aprende con nuestras clases en video.</p></a>'+
+   '<a class="mod" href="#/cursos" style="--c:var(--magenta)"><img src="img/estrella-magenta.png" alt=""><h3>Cursos</h3><p>Tus cursos y nuestro catálogo.</p></a>'+
    '<a class="mod" href="#/proyectos" style="--c:var(--azul)"><img src="img/mancha-azul.png" alt=""><h3>Proyectos</h3><p>Los proyectos que Cosmos hace para ti.</p></a>'+
    '<a class="mod" href="#/contacto" style="--c:var(--morado)"><img src="img/espiral-azul.png" alt=""><h3>Contacto</h3><p>Nuestras redes y nuestro WhatsApp.</p></a>'+
    (u.role==='admin'?'<a class="mod adm" href="#/admin"><img src="img/estrella-neon.png" alt=""><h3>Administración</h3><p>Cursos, usuarios y pedidos.</p></a>':'')+
@@ -341,16 +307,14 @@ function viewHome(){
 
 /* ================== Cursos ================== */
 function viewCursos(){
-  var cs=courses(),cc=['var(--azul)','var(--magenta)'],k=0;
-  app.innerHTML=shell('<div class="sec-h">'+back('#/','Inicio')+'<h1>Cursos</h1></div><div class="grid3">'+
-   cs.map(function(c){
-     if(c.available)return '<a class="course on" href="#/cursos/'+esc(c.id)+'"><span class="badge">Disponible</span><h3>'+esc(c.title)+'</h3><p>'+esc(c.summary)+'</p></a>';
-     return '<div class="course soon" style="--c:'+cc[k++%2]+'"><span class="badge">Próximamente</span><h3>'+esc(c.title)+'</h3><p>'+esc(c.summary)+'</p></div>';
-   }).join('')+'</div>',true);
+  var u=me(),cs=courses().filter(function(c){return c.available&&hasAccess(u,c.id)});
+  app.innerHTML=shell('<div class="sec-h">'+back('#/','Inicio')+'<h1>Mis cursos</h1><a class="btn b-mor" href="cursos.html" style="margin-left:auto">Ver catálogo de cursos</a></div>'+
+   (cs.length?'<div class="grid3">'+cs.map(function(c){return '<a class="course on" href="#/cursos/'+esc(c.id)+'"><span class="badge">Tu curso</span><h3>'+esc(c.title)+'</h3><p>'+esc(c.summary)+'</p></a>'}).join('')+'</div>'
+   :'<div class="soon-box"><h2 style="font-size:clamp(24px,3vw,38px)">Aún no tienes cursos</h2><p>Cuando compres un curso y verifiquemos tu pago, te daremos acceso y aparecerá aquí.</p><p style="margin-top:20px"><a class="btn b-mag" href="cursos.html">Ver catálogo de cursos</a></p></div>'),true);
 }
 function findCourse(id){return courses().filter(function(c){return c.id===id})[0]}
 function viewCurso(id){
-  var c=findCourse(id);if(!c||!c.available){go('#/cursos');return}
+  var c=findCourse(id);if(!c||!c.available||!hasAccess(me(),id)){toast('No tienes acceso a este curso');go('#/cursos');return}
   app.innerHTML=shell('<div class="sec-h">'+back('#/cursos','Cursos')+'</div><p class="crumb">Curso</p><h1 style="font-size:clamp(28px,4vw,56px);margin-bottom:14px">'+esc(c.title)+'</h1>'+
    '<p class="lead">'+esc(c.summary)+'</p><h3 style="margin-bottom:14px">Clases</h3><div class="cl">'+
    c.classes.map(function(k){
@@ -360,6 +324,7 @@ function viewCurso(id){
 }
 function viewClase(id,n){
   var c=findCourse(id),k=c&&c.classes.filter(function(x){return x.n===n})[0];
+  if(!c||!hasAccess(me(),id)){toast('No tienes acceso a este curso');go('#/cursos');return}
   if(!k||!k.published){go('#/cursos/'+id);return}
   var nx=c.classes.filter(function(x){return x.n===n+1&&x.published})[0];
   app.innerHTML=shell('<p class="crumb">'+esc(c.title)+'</p><h1 style="font-size:clamp(26px,3.6vw,48px);margin-bottom:22px">'+esc(k.title)+'</h1>'+
@@ -492,6 +457,16 @@ function admCourses(){
    '<div class="panel"><div class="fld"><label>Título del curso</label><input data-f="c.title" value="'+esc(c.title)+'"></div>'+
    '<div class="fld"><label>Resumen</label><textarea data-f="c.summary" rows="3">'+esc(c.summary)+'</textarea></div>'+
    '<label><input type="checkbox" data-f="c.available"'+(c.available?' checked':'')+'> Disponible (si no, se muestra como "Próximamente")</label></div>'+
+   '<div class="panel"><h3 style="margin-bottom:6px;font-size:20px">Información del catálogo</h3><p class="hint" style="margin-bottom:14px">Esto es lo que ve el público en la página de cursos.</p>'+
+   '<div class="g2"><div class="fld"><label>Precio (ej: $25)</label><input data-f="c.price" value="'+esc(c.price)+'" placeholder="Si lo dejas vacío dice: Consultar precio"></div>'+
+   '<div class="fld"><label>Profesor: nombre</label><input data-f="c.teacher.name" value="'+esc(c.teacher.name)+'"></div></div>'+
+   '<div class="g2"><div class="fld"><label>Profesor: a qué se dedica</label><input data-f="c.teacher.role" value="'+esc(c.teacher.role)+'" placeholder="Ej: CEO de Cosmos, Diseñador gráfico, Editor de video"></div>'+
+   '<div class="fld"><label>Profesor: foto (ruta o subir imagen)</label><div class="upl"><input data-f="c.teacher.photo" value="'+(c.teacher.photo&&c.teacher.photo.indexOf('data:')===0?'(foto subida)':esc(c.teacher.photo))+'" placeholder="img/profesor-miguelon.jpg"><input type="file" accept="image/*" data-up="teacher"></div></div></div>'+
+   '<div class="prevs" style="margin-bottom:14px">'+avatar(c.teacher,54)+'<span class="hint">Así se verá la foto del profesor.</span></div>'+
+   '<div class="fld"><label>Descripción completa del curso</label><textarea rows="4" data-f="c.description">'+esc(c.description)+'</textarea></div>'+
+   '<label>Imágenes del curso (hasta 4)</label>'+
+   [0,1,2,3].map(function(i){var im=c.images[i]||'';return '<div class="upl" style="margin:8px 0"><input data-f="c.img.'+i+'" value="'+(im.indexOf('data:')===0?'(imagen subida)':esc(im))+'" placeholder="Ruta de la imagen (img/curso-capcut-'+(i+1)+'.jpg) o sube una"><input type="file" accept="image/*" data-up="img.'+i+'"></div>'+(im?'<div class="prevs"><img class="pv" src="'+esc(im)+'" alt=""></div>':'')}).join('')+
+   '</div>'+
    '<h3 style="margin:24px 0 14px">Clases ('+c.classes.length+')</h3>'+
    c.classes.map(function(k){
      var rows=[0,1,2].map(function(i){var s=k.sources[i]||{label:'',url:''};
@@ -506,12 +481,21 @@ function admCourses(){
    }).join('')+'<button class="btn b-mag" data-act="addclass">+ Añadir clase</button>';
 }
 function admUsers(){
-  var me_=me();
-  return '<div class="panel tbl"><table><thead><tr><th>Nombre</th><th>Correo / usuario</th><th>Rol</th><th>Registro</th><th>Acciones</th></tr></thead><tbody>'+
+  var me_=me(),cs=courses();
+  var form=adm.showNew?'<div class="panel"><h3 style="font-size:20px;margin-bottom:14px">Crear usuario</h3><div class="g2">'+
+    '<div class="fld"><label>Nombre y apellido</label><input id="nu-name"></div><div class="fld"><label>Correo o usuario</label><input id="nu-mail"></div>'+
+    '<div class="fld"><label>Contraseña (mínimo 6 caracteres)</label><input id="nu-pass"></div>'+
+    '<div class="fld"><label>Rol</label><select id="nu-role"><option value="user">Usuario</option><option value="admin">Admin</option></select></div></div>'+
+    '<label>Cursos a los que tendrá acceso</label><div style="margin:8px 0 14px">'+cs.map(function(c){return '<label class="chip"><input type="checkbox" data-nuc="'+esc(c.id)+'"> '+esc(c.title)+'</label>'}).join('')+'</div>'+
+    '<p class="msg" id="nuMsg"></p><button class="btn b-mor" data-act="createuser">Crear usuario</button> <button class="btn b-out" data-act="cancelnew">Cancelar</button></div>':'';
+  return '<div class="bar"><button class="btn b-mag" data-act="newuser">+ Crear usuario</button></div>'+form+
+   '<p class="hint" style="margin-bottom:10px">Marca los cursos que cada usuario puede ver en su portal (cuando verifiques su pago). Los admin ven todos los cursos.</p>'+
+   '<div class="panel tbl"><table><thead><tr><th>Nombre</th><th>Correo / usuario</th><th>Rol</th><th>Acceso a cursos</th><th>Registro</th><th>Acciones</th></tr></thead><tbody>'+
    users().map(function(u){
+     var acc=u.role==='admin'?'<b>Todos</b>':cs.map(function(c){return '<label class="chip"><input type="checkbox" data-uc="'+u.id+'|'+esc(c.id)+'"'+(u.courses.indexOf(c.id)>-1?' checked':'')+'> '+esc(c.title)+'</label>'}).join('');
      return '<tr><td><input data-u="'+u.id+'.name" value="'+esc(u.name)+'"></td><td>'+esc(u.email)+'</td>'+
       '<td><select data-u="'+u.id+'.role"'+(u.id===me_.id?' disabled':'')+'><option value="user"'+(u.role==='user'?' selected':'')+'>Usuario</option><option value="admin"'+(u.role==='admin'?' selected':'')+'>Admin</option></select></td>'+
-      '<td>'+new Date(u.created).toLocaleDateString('es')+'</td><td style="white-space:nowrap"><button class="btn b-out" style="padding:8px 14px;font-size:13px" data-act="pass" data-id="'+u.id+'">Nueva contraseña</button> '+
+      '<td style="min-width:230px">'+acc+'</td><td>'+new Date(u.created).toLocaleDateString('es')+'</td><td style="white-space:nowrap"><button class="btn b-out" style="padding:8px 14px;font-size:13px" data-act="pass" data-id="'+u.id+'">Nueva contraseña</button> '+
       (u.id===me_.id?'':'<button class="btn b-mag" style="padding:8px 14px;font-size:13px" data-act="deluser" data-id="'+u.id+'">Eliminar</button>')+'</td></tr>';
    }).join('')+'</tbody></table></div>';
 }
@@ -530,10 +514,35 @@ function admOrders(){
 }
 function setPath(c,path,val){
   var p=path.split('.');
-  if(p[0]==='c'){c[p[1]]=val;return}
+  if(p[0]==='c'){
+    if(p[1]==='img'){c.images=c.images||[];while(c.images.length<=+p[2])c.images.push('');c.images[+p[2]]=val;return}
+    if(p.length===3){c[p[1]]=c[p[1]]||{};c[p[1]][p[2]]=val;return}
+    c[p[1]]=val;return}
   var k=c.classes.filter(function(x){return x.n===+p[1]})[0];if(!k)return;
   if(p[2]==='src'){while(k.sources.length<=+p[3])k.sources.push({label:'',url:''});k.sources[+p[3]][p[4]]=val}
   else k[p[2]]=val;
+}
+
+/* ================== Utilidades de admin ================== */
+function readImg(file,max,square,cb){
+  var rd=new FileReader();
+  rd.onload=function(){var im=new Image();im.onload=function(){
+    var w=im.width,h=im.height,sx=0,sy=0,sw=w,sh=h,cw,ch;
+    if(square){var m=Math.min(w,h);sx=(w-m)/2;sy=(h-m)/2;sw=sh=m;cw=ch=Math.min(max,m)}
+    else{var r=Math.min(1,max/w);cw=Math.round(w*r);ch=Math.round(h*r)}
+    var cv=document.createElement('canvas');cv.width=cw;cv.height=ch;cv.getContext('2d').drawImage(im,sx,sy,sw,sh,0,0,cw,ch);
+    cb(cv.toDataURL('image/jpeg',0.82));
+  };im.src=rd.result};
+  rd.readAsDataURL(file);
+}
+async function createUser(){
+  var msg=$('#nuMsg'),name=$('#nu-name').value.trim(),mail=$('#nu-mail').value.trim().toLowerCase(),pass=$('#nu-pass').value,role=$('#nu-role').value,l=users();
+  if(name.length<2||!mail||!pass){msg.textContent='Completa nombre, correo o usuario y contraseña.';return}
+  if(pass.length<6){msg.textContent='La contraseña debe tener al menos 6 caracteres.';return}
+  if(l.some(function(u){return u.email===mail})){msg.textContent='Ese correo o usuario ya existe.';return}
+  var cc=$$('[data-nuc]').filter(function(x){return x.checked}).map(function(x){return x.dataset.nuc});
+  l.push({id:'u_'+Date.now(),name:name,email:mail,role:role,hash:await sha(pass),created:Date.now(),courses:cc});
+  DB.set(K.users,l);adm.showNew=false;toast('Usuario creado');route();
 }
 
 /* ================== Eventos globales ================== */
@@ -553,6 +562,16 @@ document.addEventListener('change',function(e){
       k.subs=s;k.subsName=f.name;saveCourses(cs);route();
     };
     rd.readAsText(f);
+  }else if(t.dataset.uc){
+    var pp=t.dataset.uc.split('|'),l2=users(),u2=l2.filter(function(x){return x.id===pp[0]})[0];
+    u2.courses=u2.courses.filter(function(x){return x!==pp[1]});if(t.checked)u2.courses.push(pp[1]);DB.set(K.users,l2);toast(t.checked?'Acceso concedido':'Acceso quitado');
+  }else if(t.dataset.up){
+    var f2=t.files[0];if(!f2)return;var isT=t.dataset.up==='teacher';
+    readImg(f2,isT?320:1200,isT,function(url){
+      var cs=courses(),c=cs.filter(function(x){return x.id===adm.course})[0];
+      if(isT){c.teacher=c.teacher||{};c.teacher.photo=url}else{var i=+t.dataset.up.split('.')[1];while(c.images.length<=i)c.images.push('');c.images[i]=url}
+      saveCourses(cs);route();
+    });
   }else if(t.dataset.u){
     var p=t.dataset.u.split('.'),l=users(),u=l.filter(function(x){return x.id===p[0]})[0];u[p[1]]=t.value;DB.set(K.users,l);toast('Guardado');
   }else if(t.dataset.o){
@@ -564,13 +583,16 @@ document.addEventListener('click',function(e){
   if(a==='logout'){DB.set(K.ses,null);location.hash='#/';route()}
   else if(a==='mode'){mode=b.dataset.m;viewAuth()}
   else if(a==='google')toast('El acceso con Google se activará cuando conectemos la base de datos.');
-  else if(a==='newcourse'){var n=prompt('Nombre del nuevo curso:');if(n){var cs=courses();var id='c'+Date.now();cs.push({id:id,title:n,summary:'',available:false,classes:[]});saveCourses(cs);adm.course=id;route()}}
+  else if(a==='newcourse'){var n=prompt('Nombre del nuevo curso:');if(n){var cs=courses();var id='c'+Date.now();cs.push({id:id,title:n,summary:'',available:false,price:'',description:'',images:[],teacher:{name:'',role:'',photo:''},classes:[]});saveCourses(cs);adm.course=id;route()}}
   else if(a==='delcourse'){if(confirm('¿Eliminar este curso completo?')){var cs2=courses().filter(function(x){return x.id!==adm.course});saveCourses(cs2);adm.course=cs2[0]&&cs2[0].id;route()}}
   else if(a==='addclass'){var cs3=courses(),c=cs3.filter(function(x){return x.id===adm.course})[0],n2=c.classes.length+1;c.classes.push({n:n2,title:'Clase '+n2,summary:'',published:false,sources:[],subs:'',subsName:''});saveCourses(cs3);route()}
   else if(a==='delclass'){if(confirm('¿Eliminar esta clase?')){var cs4=courses(),c4=cs4.filter(function(x){return x.id===adm.course})[0];c4.classes=c4.classes.filter(function(x){return x.n!==+b.dataset.n});c4.classes.forEach(function(x,i){x.n=i+1});saveCourses(cs4);route()}}
   else if(a==='rmsubs'){var cs5=courses(),c5=cs5.filter(function(x){return x.id===adm.course})[0],k5=c5.classes.filter(function(x){return x.n===+b.dataset.n})[0];k5.subs='';k5.subsName='';saveCourses(cs5);route()}
   else if(a==='pass'){var np=prompt('Nueva contraseña (mínimo 6 caracteres):');if(np&&np.length>=6){var l=users();sha(np).then(function(h){l.filter(function(x){return x.id===b.dataset.id})[0].hash=h;DB.set(K.users,l);toast('Contraseña actualizada')})}else if(np)toast('Mínimo 6 caracteres')}
   else if(a==='deluser'){if(confirm('¿Eliminar este usuario?')){DB.set(K.users,users().filter(function(x){return x.id!==b.dataset.id}));route()}}
+  else if(a==='newuser'){adm.showNew=true;route()}
+  else if(a==='cancelnew'){adm.showNew=false;route()}
+  else if(a==='createuser'){createUser()}
   else if(a==='delorder'){if(confirm('¿Eliminar este pedido?')){DB.set(K.orders,DB.get(K.orders,[]).filter(function(x){return String(x.id)!==b.dataset.id}));route()}}
 });
 seed().then(route);
